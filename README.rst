@@ -43,8 +43,7 @@ Extending content-types
 -----------------------
 
 This product is modular, so if you want to add this feature (or more features)
-to some custom content-types you only need to provide a new adapter for the
-  ``ILinkEnhancerProvider`` interface::
+to some custom content-types you only need to provide a new adapter for the ``ILinkEnhancerProvider`` interface::
 
     <adapter
         for="your.package.interfaces.IYourContent"
