@@ -1,12 +1,13 @@
 <configure
     xmlns="http://namespaces.zope.org/zope"
+    xmlns:zcml="http://namespaces.zope.org/zcml"
     xmlns:five="http://namespaces.zope.org/five"
     xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
     xmlns:i18n="http://namespaces.zope.org/i18n"
     i18n_domain="collective.outputfilters.enhancelinks">
 
   <includeDependencies package="." />
-  
+
   <adapter
     provides="plone.outputfilters.interfaces.IFilter"
     name="enhance_links"
@@ -25,14 +26,17 @@
     provides="collective.outputfilters.enhancelinks.interfaces.ILinkEnhancerProvider"
     factory=".adapters.ATImageEnhanceLink"
     />
-  <adapter
-    for="plone.app.contenttypes.interfaces.IFile"
-    provides="collective.outputfilters.enhancelinks.interfaces.ILinkEnhancerProvider"
-    factory=".adapters.DXFileEnhanceLink"
-    />
-  <adapter
-    for="plone.app.contenttypes.interfaces.IImage"
-    provides="collective.outputfilters.enhancelinks.interfaces.ILinkEnhancerProvider"
-    factory=".adapters.DXImageEnhanceLink"
-    />
+    <!-- DX Items -->
+    <adapter
+      zcml:condition="installed plone.app.contenttypes"
+      for="plone.app.contenttypes.interfaces.IFile"
+      provides="collective.outputfilters.enhancelinks.interfaces.ILinkEnhancerProvider"
+      factory=".adapters.DXFileEnhanceLink"
+      />
+    <adapter
+      zcml:condition="installed plone.app.contenttypes"
+      for="plone.app.contenttypes.interfaces.IImage"
+      provides="collective.outputfilters.enhancelinks.interfaces.ILinkEnhancerProvider"
+      factory=".adapters.DXImageEnhanceLink"
+      />
 </configure>
