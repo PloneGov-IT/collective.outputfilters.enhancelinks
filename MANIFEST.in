@@ -2,8 +2,8 @@ graft src/collective
 graft docs/
 include *.cfg *.rst *.in
 include *.py
-ignore .coveragerc
-ignore .editorconfig
-ignore .gitattributes
+exclude .coveragerc
+exclude .editorconfig
+exclude .gitattributes
 recursive-include docs *.GPL
 recursive-include docs *.rst
