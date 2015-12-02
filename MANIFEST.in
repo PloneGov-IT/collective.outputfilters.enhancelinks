@@ -7,3 +7,4 @@ exclude .editorconfig
 exclude .gitattributes
 recursive-include docs *.GPL
 recursive-include docs *.rst
+global-exclude *pyc
