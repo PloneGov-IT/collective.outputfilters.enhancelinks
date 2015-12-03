@@ -5,7 +5,8 @@ Changelog
 0.1.1 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Handled UnicodeDecodeError in Transform
+  [cekk]
 
 
 0.1.0 (2015-12-02)

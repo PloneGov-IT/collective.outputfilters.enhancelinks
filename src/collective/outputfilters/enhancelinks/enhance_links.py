@@ -91,7 +91,16 @@ class EnhanceLinks(object):
             node.insert(0, icon_tag)
             node.text = ""
         if link_details.get('url_suffix'):
-            node.set('href', node.get('href') + link_details.get('url_suffix'))
+            try:
+                new_url = "%s%s" % (
+                    node.get('href'),
+                    link_details.get('url_suffix'))
+            except UnicodeDecodeError:
+                new_url = "%s%s" % (
+                    node.get('href').encode('utf-8'),
+                    link_details.get('url_suffix'))
+                new_url = new_url.decode('utf-8')
+            node.set('href', new_url)
 
     def process(self, data):
         """
