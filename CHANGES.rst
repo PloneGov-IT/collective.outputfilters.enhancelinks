@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-0.1.2 (unreleased)
+0.1.2 (2015-12-09)
 ------------------
 
 - Fix additional infos position when a link has some children (for example a span)
