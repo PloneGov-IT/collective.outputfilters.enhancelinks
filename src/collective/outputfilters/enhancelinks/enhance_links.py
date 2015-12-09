@@ -80,27 +80,39 @@ class EnhanceLinks(object):
         additional_infos = [x for x in (
             link_details.get('extension'),
             link_details.get('size')) if x]
-        if additional_infos:
+        if additional_infos and text:
             text = " %s (%s)" % (text, ", ".join(additional_infos))
         if link_details.get('icon_url'):
             icon_tag = etree.Element("img")
             icon_tag.set("src", link_details.get('icon_url'))
             icon_tag.set("class", "attachmentLinkIcon")
+            node.insert(0, icon_tag)
+        if text:
             # move text after the image
             icon_tag.tail = text
-            node.insert(0, icon_tag)
             node.text = ""
+        else:
+            icon_tag.tail = " "
+            node_children = node.getchildren()
+            if node_children:
+                node_children[-1].tail = " (%s)" % ", ".join(additional_infos)
         if link_details.get('url_suffix'):
-            try:
-                new_url = "%s%s" % (
-                    node.get('href'),
-                    link_details.get('url_suffix'))
-            except UnicodeDecodeError:
-                new_url = "%s%s" % (
-                    node.get('href').encode('utf-8'),
-                    link_details.get('url_suffix'))
-                new_url = new_url.decode('utf-8')
+            self.update_href(node, link_details)
+
+    def update_href(self, node, link_details):
+        try:
+            new_url = "%s%s" % (
+                node.get('href'),
+                link_details.get('url_suffix'))
+        except UnicodeDecodeError:
+            new_url = "%s%s" % (
+                node.get('href').encode('utf-8'),
+                link_details.get('url_suffix'))
+            new_url = new_url.decode('utf-8')
+        try:
             node.set('href', new_url)
+        except ValueError:
+            node.set('href', new_url.decode('utf-8'))
 
     def process(self, data):
         """

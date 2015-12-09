@@ -5,7 +5,8 @@ Changelog
 0.1.2 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Fix additional infos position when a link has some children (for example a span)
+  [cekk]
 
 
 0.1.1 (2015-12-03)
