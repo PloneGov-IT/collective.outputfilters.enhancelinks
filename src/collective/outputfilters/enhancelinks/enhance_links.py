@@ -134,7 +134,7 @@ class EnhanceLinks(object):
         # generate the new html
         raw_html = ''
         for tag in root_node.getchildren():
-            raw_html += etree.tostring(tag, encoding='utf-8')
+            raw_html += etree.tostring(tag, encoding='utf-8', method="html")
             tail = tag.tail
             if tail:
                 if isinstance(tail, unicode):
