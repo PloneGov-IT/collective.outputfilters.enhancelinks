@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-0.1.3 (unreleased)
+0.2.0 (2016-12-14)
 ------------------
 
 - Avoid etree.tostring to auto close empty divs with `method="html"` parameter.
