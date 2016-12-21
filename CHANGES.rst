@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-0.2.1 (unreleased)
+0.2.1 (2016-12-21)
 ------------------
 
 - Handle problems with malformed html that etree are unable to parse.
