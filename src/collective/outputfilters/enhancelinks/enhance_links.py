@@ -42,7 +42,11 @@ class EnhanceLinks(object):
         except etree.ParserError:
             tree = html.fragment_fromstring(data, create_parent=True)
             created_parent = True
-
+        except AssertionError as e:
+            logger.exception(e)
+            logger.warning(
+                "Transformation not applied in %s" % self.context.absolute_url())
+            return None
         if not created_parent:
             root_node = etree.Element("div")
             root_node.append(tree)

@@ -6,6 +6,7 @@ from setuptools import setup
 
 
 long_description = (
+    '\n' +
     open('README.rst').read()
     + '\n' +
     'Contributors\n'
@@ -26,7 +27,7 @@ setup(
     classifiers=[
         "Environment :: Web Environment",
         "Framework :: Plone",
-        "Framework :: Plone :: 4.3.6",
+        "Framework :: Plone :: 4.3",
         "Programming Language :: Python",
         "Programming Language :: Python :: 2.7",
         "Operating System :: OS Independent",
@@ -35,7 +36,7 @@ setup(
     keywords='Python Plone',
     author='RedTurtle Technology',
     author_email='sviluppoplone@redturtle.it',
-    url='http://pypi.python.org/pypi/collective.outputfilters.enhancelinks',
+    url='https://github.com/PloneGov-IT/collective.outputfilters.enhancelinks',
     license='GPL version 2',
     packages=find_packages('src', exclude=['ez_setup']),
     namespace_packages=['collective', 'collective.outputfilters'],

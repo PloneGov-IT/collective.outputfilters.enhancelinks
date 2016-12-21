@@ -5,7 +5,9 @@ Changelog
 0.2.1 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Handle problems with malformed html that etree are unable to parse.
+  Transformation is skipped and a warning log message is send.
+  [cekk]
 
 
 0.2.0 (2016-12-14)
