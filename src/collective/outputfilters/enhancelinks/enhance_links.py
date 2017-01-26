@@ -120,7 +120,8 @@ class EnhanceLinks(object):
 
     def process(self, data):
         """
-        Process data and check links infos
+        Process data and check links infos.
+        Parse only internal links
         """
         self.data = data
         if not self.resolve_uids:
@@ -129,7 +130,7 @@ class EnhanceLinks(object):
         root_node = self.generate_xml(data)
         if root_node is None:
             return
-        links = root_node.xpath('//*[@href]')
+        links = root_node.xpath('//a[@class="internal-link"]')
         if not links:
             # there aren't links in this html snippet
             return

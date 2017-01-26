@@ -61,16 +61,28 @@ class TestFilter(unittest.TestCase):
             '<p>This is an ' \
             '<a class="internal-link" href="resolveuid/%s" target="_self" ' \
             'title="">internal link</a></p>' % file_obj.UID()
-        new_html = '<p>This is a simple <strong>formatted text</strong>.</p>' \
-            '<p>This is an <a class="internal-link" ' \
-            'href="resolveuid/%s/at_download/file/file.pdf" ' \
-            'target="_self" title=""><img src="http://nohost/plone/pdf.png" ' \
-            'class="attachmentLinkIcon"/> internal link (pdf, 8.4 KB)</a></p>' \
-            % file_obj.UID()
         parsed_html = self.output_filter(html)
-        self.assertIn('<img src="http://nohost/plone/pdf.png" class="attachmentLinkIcon"/>', parsed_html)  # noqa
+        self.assertIn('<img src="http://nohost/plone/pdf.png" class="attachmentLinkIcon"', parsed_html)  # noqa
         self.assertIn('internal link (pdf, 8.4 KB)', parsed_html)
-        self.assertEqual(parsed_html, new_html)
+
+    def test_filter_skip_with_link_to_file(self):
+        """
+        Test if the filter works properly with a link to a file and skip a link
+        without internal-link class
+        """
+        file_path = os.path.join(os.path.dirname(__file__), "file.pdf")
+        file_obj = api.content.create(
+            type='File',
+            title='file',
+            container=self.portal,
+            file=open(file_path))
+        html = '<p>This is a simple <strong>formatted text</strong>.</p>' \
+            '<p>This is an ' \
+            '<a class="foo" href="resolveuid/%s" target="_self" ' \
+            'title="">internal link</a></p>' % file_obj.UID()
+        parsed_html = self.output_filter(html)
+        self.assertNotIn('<img src="http://nohost/plone/pdf.png" class="attachmentLinkIcon"', parsed_html)  # noqa
+        self.assertNotIn('internal link (pdf, 8.4 KB)', parsed_html)
 
     def test_filter_with_link_to_image(self):
         """Test if the filter works properly with a link to an image"""
@@ -84,12 +96,6 @@ class TestFilter(unittest.TestCase):
             '<p>This is an ' \
             '<a class="internal-link" href="resolveuid/%s" target="_self" ' \
             'title="">internal link</a></p>' % image.UID()
-        new_html = '<p>This is a simple <strong>formatted text</strong>.</p>' \
-            '<p>This is an <a class="internal-link" href="resolveuid/%s" ' \
-            'target="_self" title=""><img src="http://nohost/plone/image.png"' \
-            ' class="attachmentLinkIcon"/> internal link (jpg, 5.0 KB)</a></p>'\
-            % image.UID()
         parsed_html = self.output_filter(html)
-        self.assertIn('<img src="http://nohost/plone/image.png" class="attachmentLinkIcon"/>', parsed_html)  # noqa
+        self.assertIn('<img src="http://nohost/plone/image.png" class="attachmentLinkIcon"', parsed_html)  # noqa
         self.assertIn('internal link (jpg, 5.0 KB)', parsed_html)
-        self.assertEqual(parsed_html, new_html)
