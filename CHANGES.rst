@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-0.3.0 (unreleased)
+0.3.0 (2017-01-26)
 ------------------
 
 - Parse only links with `internal-link` class
