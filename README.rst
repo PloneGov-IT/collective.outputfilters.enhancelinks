@@ -2,6 +2,9 @@
 collective.outputfilters.enhancelinks
 ==============================================================================
 
+.. image:: https://travis-ci.org/PloneGov-IT/collective.outputfilters.enhancelinks.svg?branch=master
+    :target: https://travis-ci.org/PloneGov-IT/collective.outputfilters.enhancelinks
+
 This product add a new outputfilter that generates additional informations for
 Tiny MCE's internal link.
 
