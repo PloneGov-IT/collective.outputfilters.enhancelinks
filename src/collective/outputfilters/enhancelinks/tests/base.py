@@ -34,7 +34,7 @@ class BaseTest(unittest.TestCase):
 
     def file_icon_compare_str(self):
         icon_url = ''
-        if api.env.plone_version() < '5.0':
+        if api.env.plone_version() < '5.1':
             icon_url = 'http://nohost/plone/pdf.png'
         else:
             icon_url = 'http://nohost/plone/++resource++mimetype.icons/pdf.png'
@@ -42,7 +42,7 @@ class BaseTest(unittest.TestCase):
 
     def image_icon_compare_str(self):
         icon_url = ''
-        if api.env.plone_version() < '5.0':
+        if api.env.plone_version() < '5.1':
             icon_url = 'http://nohost/plone/image.png'
         else:
             icon_url = 'http://nohost/plone/++resource++mimetype.icons/image.png'
