@@ -5,6 +5,8 @@ include *.py
 exclude .coveragerc
 exclude .editorconfig
 exclude .gitattributes
+exclude .installed.cfg
+exclude .mr.developer.cfg
 recursive-include docs *.GPL
 recursive-include docs *.rst
 global-exclude *pyc
