@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from zope.interface import implements
+from zope.interface import implementer
 from plone import api
 from collective.outputfilters.enhancelinks.interfaces import ILinkEnhancerProvider
 
@@ -10,21 +10,21 @@ SIZE_CONST = {
 SIZE_ORDER = ('GB', 'MB', 'KB')
 
 
+@implementer(ILinkEnhancerProvider)
 class BaseEnhanceLink(object):
-    implements(ILinkEnhancerProvider)
 
     def __init__(self, context):
         self.context = context
 
     def get_url_suffix(self, filename):
-        return ""
+        return ''
 
     def get_icon_url(self, mime_infos):
         portal_url = api.portal.get().absolute_url()
-        return portal_url + "/" + mime_infos.icon_path
+        return '{0}/{1}'.format(portal_url, mime_infos.icon_path)
 
     def get_extension(self, content_file, mime_infos):
-        extension = content_file.filename.split(".")[-1]
+        extension = content_file.filename.split('.')[-1]
         if extension in mime_infos.extensions:
             return extension
         return
@@ -34,7 +34,7 @@ class BaseEnhanceLink(object):
         Return a list of possible mimetypes of the given file from
         mimetypes registry
         """
-        mtr = api.portal.get_tool(name="mimetypes_registry")
+        mtr = api.portal.get_tool(name='mimetypes_registry')
         mime = list(mtr.lookup(filetype))
         if not mime and filename:
             mime.append(mtr.lookupExtension(filename))
@@ -51,16 +51,18 @@ class BaseEnhanceLink(object):
             size = content_file.get_size()
         elif hasattr(content_file, 'size'):
             size = content_file.size
+        elif hasattr(content_file, 'getSize'):
+            size = content_file.getSize()
         # if the size is a float, then make it an int
         # happens for large files
         try:
             size = int(size)
         except (ValueError, TypeError):
-            return ""
+            return ''
         if not size:
-            return ""
+            return ''
         if size < SIZE_CONST[smaller]:
-            return '1 %s' % smaller
+            return '1 {0}'.format(smaller)
         for c in SIZE_ORDER:
             if size / SIZE_CONST[c] > 0:
                 break
@@ -85,6 +87,7 @@ class BaseEnhanceLink(object):
         result['url_suffix'] = self.get_url_suffix(content_file.filename)
         return result
 
+
 class ATFileEnhanceLink(BaseEnhanceLink):
 
     def get_link_details(self):
@@ -102,13 +105,13 @@ class ATFileEnhanceLink(BaseEnhanceLink):
         return self.extract_infos(content_file, mime)
 
     def get_url_suffix(self, filename):
-        return "/at_download/file/%s" % filename
+        return '/at_download/file/{0}'.format(filename)
 
 
 class ATImageEnhanceLink(ATFileEnhanceLink):
 
     def get_url_suffix(self, filename):
-        return ""
+        return ''
 
 
 class DXFileEnhanceLink(BaseEnhanceLink):
@@ -128,7 +131,7 @@ class DXFileEnhanceLink(BaseEnhanceLink):
         return self.extract_infos(content_file, mime)
 
     def get_url_suffix(self, filename):
-        return "/@@download/file/%s" % filename
+        return '/@@download/file/{0}'.format(filename)
 
 
 class DXImageEnhanceLink(BaseEnhanceLink):

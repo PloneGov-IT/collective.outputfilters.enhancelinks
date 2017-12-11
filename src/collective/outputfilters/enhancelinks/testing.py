@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from plone import api
 from plone.app.robotframework.testing import REMOTE_LIBRARY_BUNDLE_FIXTURE
 from plone.app.testing import applyProfile
 from plone.app.testing import FunctionalTesting
@@ -17,8 +18,9 @@ class CollectiveOutputfiltersenhancelinksLayer(PloneSandboxLayer):
     def setUpZope(self, app, configurationContext):
         self.loadZCML(package=collective.outputfilters.enhancelinks)
 
-    # def setUpPloneSite(self, portal):
-    #     applyProfile(portal, 'collective.outputfilters.enhancelinks:default')
+    def setUpPloneSite(self, portal):
+        if api.env.plone_version() >= '5.0':
+            applyProfile(portal, 'plone.app.contenttypes:default')
 
 
 COLLECTIVE_OUTPUTFILTERS_enhancelinks_FIXTURE = CollectiveOutputfiltersenhancelinksLayer()

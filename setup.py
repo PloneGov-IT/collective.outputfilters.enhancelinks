@@ -20,18 +20,19 @@ long_description = (
 
 setup(
     name='collective.outputfilters.enhancelinks',
-    version='0.3.1.dev0',
-    description="An additional outputfilter that enhance file and image links informations in rich text",
+    version='0.4.0.dev0',
+    description='An additional outputfilter that enhance file and image links informations in rich text',
     long_description=long_description,
     # Get more from http://pypi.python.org/pypi?%3Aaction=list_classifiers
     classifiers=[
-        "Environment :: Web Environment",
-        "Framework :: Plone",
-        "Framework :: Plone :: 4.3",
-        "Programming Language :: Python",
-        "Programming Language :: Python :: 2.7",
-        "Operating System :: OS Independent",
-        "License :: OSI Approved :: GNU General Public License v2 (GPLv2)",
+        'Environment :: Web Environment',
+        'Framework :: Plone',
+        'Framework :: Plone :: 5.0',
+        'Framework :: Plone :: 5.1',
+        'Programming Language :: Python',
+        'Programming Language :: Python :: 2.7',
+        'Operating System :: OS Independent',
+        'License :: OSI Approved :: GNU General Public License v2 (GPLv2)',
     ],
     keywords='Python Plone',
     author='RedTurtle Technology',
@@ -50,9 +51,11 @@ setup(
     extras_require={
         'test': [
             'plone.app.testing',
+            'plone.testing>=5.0.0',
             'plone.app.contenttypes',
             'plone.app.robotframework[debug]',
-        ],
+            'unittest2',
+            ]
     },
     entry_points="""
     [z3c.autoinclude.plugin]

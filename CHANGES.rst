@@ -2,10 +2,11 @@ Changelog
 =========
 
 
-0.3.1 (unreleased)
+0.4.0 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Add support for Plone5
+  [cekk]
 
 
 0.3.0 (2017-01-26)
