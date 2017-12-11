@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-0.4.0 (unreleased)
+0.4.0 (2017-12-11)
 ------------------
 
 - Add support for Plone5
