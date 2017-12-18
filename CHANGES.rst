@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-0.4.1 (unreleased)
+0.4.1 (2017-12-18)
 ------------------
 
 - Fixed unicode.
