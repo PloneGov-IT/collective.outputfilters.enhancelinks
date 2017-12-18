@@ -86,6 +86,7 @@ class EnhanceLinks(object):
             link_details.get('extension'),
             link_details.get('size')) if x]
         if additional_infos and text:
+	    text = text.encode('utf-8')
             text = ' {0} ({1})'.format(text, ', '.join(additional_infos))
         if link_details.get('icon_url'):
             icon_tag = etree.Element("img")
@@ -94,6 +95,7 @@ class EnhanceLinks(object):
             node.insert(0, icon_tag)
         if text:
             # move text after the image
+	    text = text.decode('utf-8')
             icon_tag.tail = text
             node.text = ''
         else:

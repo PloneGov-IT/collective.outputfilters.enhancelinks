@@ -5,7 +5,8 @@ Changelog
 0.4.1 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Fixed unicode.
+  [daniele]
 
 
 0.4.0 (2017-12-11)
