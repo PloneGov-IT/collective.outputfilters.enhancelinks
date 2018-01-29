@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-0.4.3 (unreleased)
+0.4.3 (2018-01-29)
 ------------------
 
 - Use set() to remove duplicated entries in link detection
