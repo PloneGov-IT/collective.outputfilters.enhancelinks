@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-0.4.2 (unreleased)
+0.4.2 (2018-01-29)
 ------------------
 
 - Fix xpath filter to get all old-style internal-links
