@@ -5,7 +5,8 @@ Changelog
 0.4.3 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Use set() to remove duplicated entries in link detection
+  [cekk]
 
 
 0.4.2 (2018-01-29)
