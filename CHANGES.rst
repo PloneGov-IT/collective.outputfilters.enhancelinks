@@ -5,7 +5,8 @@ Changelog
 0.4.2 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Fix xpath filter to get all old-style internal-links
+  [cekk]
 
 
 0.4.1 (2017-12-18)

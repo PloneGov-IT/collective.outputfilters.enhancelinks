@@ -123,6 +123,24 @@ class TestFilter(BaseTest):
         self.assertIn(self.file_icon_compare_str(), parsed_html)  # noqa
         self.assertIn('internal link (pdf, 8.4 KB)', parsed_html)
 
+    def test_filter_with_oldstyle_link_to_file_multiple_classes(self):
+        """
+        Test if the filter works properly with a link to a file and
+        have multiple css classes
+        """
+        file_obj = api.content.create(
+            type='File',
+            title='file',
+            container=self.portal,
+            file=self.get_attachment(u'file.pdf', type='file'))
+        html = '<p>This is a simple <strong>formatted text</strong>.</p>' \
+            '<p>This is an ' \
+            '<a class="internal-link some-class" href="resolveuid/{0}" target="_self" ' \
+            'title="">internal link</a></p>'.format(file_obj.UID())
+        parsed_html = self.output_filter(html)
+        self.assertIn(self.file_icon_compare_str(), parsed_html)  # noqa
+        self.assertIn('internal link (pdf, 8.4 KB)', parsed_html)
+
     def test_filter_skip_with_oldstyle_link_to_file(self):
         """
         Test if the filter works properly with a link to a file and skip a link

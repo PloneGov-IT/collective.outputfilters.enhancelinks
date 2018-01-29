@@ -135,7 +135,8 @@ class EnhanceLinks(object):
         if root_node is None:
             return
         # old-style links
-        links = root_node.xpath('//a[@class="internal-link"]')
+        links = root_node.xpath(
+            '//a[contains(concat(" ", @class, " "), " internal-link ")]')
         # new-style links
         links.extend(root_node.xpath('//a[@data-linktype="internal"]'))
         if not links:
