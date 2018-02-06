@@ -1,15 +1,13 @@
-from lxml import html
+# -*- coding: utf-8 -*-
+from collective.outputfilters.enhancelinks import logger
+from collective.outputfilters.enhancelinks.interfaces import ILinkEnhancerProvider  # noqa
 from lxml import etree
-
+from lxml import html
+from plone import api
+from plone.outputfilters.filters.resolveuid_and_caption import IResolveUidsEnabler  # noqa
+from plone.outputfilters.filters.resolveuid_and_caption import resolveuid_re
 from zope.cachedescriptors.property import Lazy as lazy_property
 from zope.component import getAllUtilitiesRegisteredFor
-from plone.outputfilters.filters.resolveuid_and_caption import IResolveUidsEnabler
-from plone.outputfilters.filters.resolveuid_and_caption import resolveuid_re
-from plone import api
-import re
-from collective.outputfilters.enhancelinks.interfaces import ILinkEnhancerProvider
-import pkg_resources
-from collective.outputfilters.enhancelinks import logger
 
 
 class EnhanceLinks(object):
@@ -86,16 +84,16 @@ class EnhanceLinks(object):
             link_details.get('extension'),
             link_details.get('size')) if x]
         if additional_infos and text:
-	    text = text.encode('utf-8')
+            text = text.encode('utf-8')
             text = ' {0} ({1})'.format(text, ', '.join(additional_infos))
         if link_details.get('icon_url'):
-            icon_tag = etree.Element("img")
+            icon_tag = etree.Element('img')
             icon_tag.set('src', link_details.get('icon_url'))
             icon_tag.set('class', 'attachmentLinkIcon')
             node.insert(0, icon_tag)
         if text:
             # move text after the image
-	    text = text.decode('utf-8')
+            text = text.decode('utf-8')
             icon_tag.tail = text
             node.text = ''
         else:
