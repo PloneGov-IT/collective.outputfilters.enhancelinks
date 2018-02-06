@@ -5,7 +5,11 @@ Changelog
 0.4.4 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Better unicode/decode error handling
+  [cekk]
+- Don't enhance links with "@@download" if already present in the href attribute
+  to avoid duplication
+  [cekk]
 
 
 0.4.3 (2018-01-29)

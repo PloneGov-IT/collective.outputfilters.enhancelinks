@@ -108,11 +108,14 @@ class EnhanceLinks(object):
             self.update_href(node, link_details)
 
     def update_href(self, node, link_details):
+        if link_details.get('url_suffix') in node.get('href').encode('utf-8'):
+            # suffix is already present in the link, so skip it
+            return
         try:
             new_url = '{0}{1}'.format(
                 node.get('href'),
                 link_details.get('url_suffix'))
-        except UnicodeDecodeError:
+        except (UnicodeDecodeError, UnicodeEncodeError):
             new_url = '{0}{1}'.format(
                 node.get('href').encode('utf-8'),
                 link_details.get('url_suffix'))
