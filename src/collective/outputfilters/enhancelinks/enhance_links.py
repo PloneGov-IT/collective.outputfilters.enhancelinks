@@ -57,6 +57,9 @@ class EnhanceLinks(object):
         """
         Try to get the object from the href
         """
+        if not node.get('href'):
+            return None
+
         match = resolveuid_re.match(node.get('href'))
         if not match:
             return None
