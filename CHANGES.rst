@@ -5,7 +5,8 @@ Changelog
 0.4.5 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Fixed obj retrieval when href attribute is none.
+  [daniele-andreotti]
 
 
 0.4.4 (2018-02-06)
