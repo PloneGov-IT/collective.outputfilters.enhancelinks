@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-0.4.5 (unreleased)
+0.4.5 (2019-01-24)
 ------------------
 
 - Fixed obj retrieval when href attribute is none.
