@@ -131,7 +131,7 @@ class DXFileEnhanceLink(BaseEnhanceLink):
         return self.extract_infos(content_file, mime)
 
     def get_url_suffix(self, filename):
-	filename = filename.encode('utf-8')
+        filename = filename.encode('utf-8')
         return '/@@download/file/{0}'.format(filename)
 
 
