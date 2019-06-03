@@ -12,6 +12,7 @@ from plone.outputfilters.filters.resolveuid_and_caption import (
 from plone.outputfilters.filters.resolveuid_and_caption import resolveuid_re
 from zope.cachedescriptors.property import Lazy as lazy_property
 from zope.component import getAllUtilitiesRegisteredFor
+import six
 
 
 class EnhanceLinks(object):
@@ -37,7 +38,7 @@ class EnhanceLinks(object):
         """
         Transform the given html string into xml
         """
-        if not isinstance(data, unicode):
+        if not isinstance(data, six.text_type):
             data = data.decode('utf-8')
         created_parent = False
         try:
@@ -181,7 +182,7 @@ class EnhanceLinks(object):
             raw_html += etree.tostring(tag, encoding='utf-8', method='html')
             tail = tag.tail
             if tail:
-                if isinstance(tail, unicode):
+                if isinstance(tail, six.text_type):
                     tail = tail.encode('utf-8')
                 raw_html += tail
         self.data = raw_html
