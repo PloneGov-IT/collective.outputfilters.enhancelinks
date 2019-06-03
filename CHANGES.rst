@@ -2,10 +2,11 @@ Changelog
 =========
 
 
-0.4.6 (unreleased)
+0.5.0 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Fix accessibility.
+  [cekk]
 
 
 0.4.5 (2019-01-24)

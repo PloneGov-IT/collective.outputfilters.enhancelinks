@@ -1,10 +1,14 @@
 # -*- coding: utf-8 -*-
 from collective.outputfilters.enhancelinks import logger
-from collective.outputfilters.enhancelinks.interfaces import ILinkEnhancerProvider  # noqa
+from collective.outputfilters.enhancelinks.interfaces import (
+    ILinkEnhancerProvider,
+)  # noqa
 from lxml import etree
 from lxml import html
 from plone import api
-from plone.outputfilters.filters.resolveuid_and_caption import IResolveUidsEnabler  # noqa
+from plone.outputfilters.filters.resolveuid_and_caption import (
+    IResolveUidsEnabler,
+)  # noqa
 from plone.outputfilters.filters.resolveuid_and_caption import resolveuid_re
 from zope.cachedescriptors.property import Lazy as lazy_property
 from zope.component import getAllUtilitiesRegisteredFor
@@ -14,6 +18,7 @@ class EnhanceLinks(object):
     """
     Filter implementation. Add more informations in links
     """
+
     order = 600
 
     def __init__(self, context=None, request=None):
@@ -44,7 +49,9 @@ class EnhanceLinks(object):
             logger.exception(e)
             logger.warning(
                 'Transformation not applied in {0}'.format(
-                    self.context.absolute_url()))
+                    self.context.absolute_url()
+                )
+            )
             return None
         if not created_parent:
             root_node = etree.Element('div')
@@ -83,28 +90,44 @@ class EnhanceLinks(object):
         link_details = enhancer_provider.get_link_details()
         if not link_details:
             return
-        additional_infos = [x for x in (
-            link_details.get('extension'),
-            link_details.get('size')) if x]
-        if additional_infos and text:
-            text = text.encode('utf-8')
-            text = ' {0} ({1})'.format(text, ', '.join(additional_infos))
+        # additional_infos = [
+        #     x
+        #     for x in (link_details.get('extension'), link_details.get('size'))
+        #     if x
+        # ]
+        icon_tag = None
         if link_details.get('icon_url'):
             icon_tag = etree.Element('img')
             icon_tag.set('src', link_details.get('icon_url'))
             icon_tag.set('class', 'attachmentLinkIcon')
-            node.insert(0, icon_tag)
+            icon_tag.set('alt', link_details.get('extension'))
+
         if text:
-            # move text after the image
-            text = text.decode('utf-8')
-            icon_tag.tail = text
-            node.text = ''
+            text += ' ('
+            if icon_tag is not None:
+                icon_tag.tail = ' {0})'.format(link_details.get('size'))
+                node.insert(0, icon_tag)
+            else:
+                text += '{0} {1})'.format(
+                    link_details.get('extension'), link_details.get('size')
+                )
+            node.text = text
         else:
-            icon_tag.tail = ' '
             node_children = node.getchildren()
-            if node_children:
-                node_children[-1].tail = ' ({0})'.format(
-                    ', '.join(additional_infos))
+            if not node_children:
+                return
+            last_children = node_children[-1]
+            if last_children.text:
+                last_children_text = '{0} ('.format(last_children.text)
+                if icon_tag is not None:
+                    icon_tag.tail = ' {0})'.format(link_details.get('size'))
+                    last_children.insert(0, icon_tag)
+                else:
+                    last_children_text += '{0} {1})'.format(
+                        link_details.get('extension'), link_details.get('size')
+                    )
+                last_children.text = last_children_text
+
         if link_details.get('url_suffix'):
             self.update_href(node, link_details)
 
@@ -114,12 +137,13 @@ class EnhanceLinks(object):
             return
         try:
             new_url = '{0}{1}'.format(
-                node.get('href'),
-                link_details.get('url_suffix'))
+                node.get('href'), link_details.get('url_suffix')
+            )
         except (UnicodeDecodeError, UnicodeEncodeError):
             new_url = '{0}{1}'.format(
                 node.get('href').encode('utf-8'),
-                link_details.get('url_suffix'))
+                link_details.get('url_suffix'),
+            )
             new_url = new_url.decode('utf-8')
         try:
             node.set('href', new_url)
@@ -139,8 +163,11 @@ class EnhanceLinks(object):
         if root_node is None:
             return
         # old-style links
-        links = set(root_node.xpath(
-            '//a[contains(concat(" ", @class, " "), " internal-link ")]'))
+        links = set(
+            root_node.xpath(
+                '//a[contains(concat(" ", @class, " "), " internal-link ")]'
+            )
+        )
         # new-style links
         links.update(root_node.xpath('//a[@data-linktype="internal"]'))
         if not links:
