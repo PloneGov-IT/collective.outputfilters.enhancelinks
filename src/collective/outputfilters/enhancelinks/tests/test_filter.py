@@ -59,7 +59,7 @@ class TestFilter(BaseTest):
             type='File',
             title='file',
             container=self.portal,
-            file=self.get_attachment(u'file.pdf', type='file'),
+            file=self.get_attachment(u'example.txt', type='file'),
         )
         html = (
             '<p>This is a simple <strong>formatted text</strong>.</p>'
@@ -80,7 +80,7 @@ class TestFilter(BaseTest):
             type='File',
             title='file',
             container=self.portal,
-            file=self.get_attachment(u'file.pdf', type='file'),
+            file=self.get_attachment(u'example.txt', type='file'),
         )
         html = (
             '<p>This is a simple <strong>formatted text</strong>.</p>'
@@ -106,7 +106,7 @@ class TestFilter(BaseTest):
             type='File',
             title='file',
             container=self.portal,
-            file=self.get_attachment(u'file.pdf', type='file'),
+            file=self.get_attachment(u'example.txt', type='file'),
         )
         html = (
             '<p>This is a simple <strong>formatted text</strong>.</p>'
@@ -158,7 +158,7 @@ class TestFilter(BaseTest):
             type='File',
             title='file',
             container=self.portal,
-            file=self.get_attachment(u'file.pdf', type='file'),
+            file=self.get_attachment(u'example.txt', type='file'),
         )
         html = (
             '<p>This is a simple <strong>formatted text</strong>.</p>'
@@ -181,7 +181,7 @@ class TestFilter(BaseTest):
             type='File',
             title='file',
             container=self.portal,
-            file=self.get_attachment(u'file.pdf', type='file'),
+            file=self.get_attachment(u'example.txt', type='file'),
         )
         html = (
             '<p>This is a simple <strong>formatted text</strong>.</p>'
@@ -204,7 +204,7 @@ class TestFilter(BaseTest):
             type='File',
             title='file',
             container=self.portal,
-            file=self.get_attachment(u'file.pdf', type='file'),
+            file=self.get_attachment(u'example.txt', type='file'),
         )
         html = (
             '<p>This is a simple <strong>formatted text</strong>.</p>'

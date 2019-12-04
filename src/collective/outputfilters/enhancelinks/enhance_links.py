@@ -101,7 +101,8 @@ class EnhanceLinks(object):
             icon_tag = etree.Element('img')
             icon_tag.set('src', link_details.get('icon_url'))
             icon_tag.set('class', 'attachmentLinkIcon')
-            icon_tag.set('alt', link_details.get('extension'))
+            if link_details.get('extension'):
+                icon_tag.set('alt', link_details.get('extension'))
 
         if text:
             text += ' ('
@@ -127,7 +128,7 @@ class EnhanceLinks(object):
                     last_children_text += '{0} {1})'.format(
                         link_details.get('extension'), link_details.get('size')
                     )
-                last_children.text = last_children_text
+                last_children.text = last_children_text.decode('utf-8')
 
         if link_details.get('url_suffix'):
             self.update_href(node, link_details)

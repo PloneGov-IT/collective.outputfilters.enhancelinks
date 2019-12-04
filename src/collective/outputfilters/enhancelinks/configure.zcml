@@ -17,11 +17,13 @@
 
   <!-- content-type adapters -->
   <adapter
+    zcml:condition="not-have plone-52"
     for="Products.ATContentTypes.interface.IATFile"
     provides="collective.outputfilters.enhancelinks.interfaces.ILinkEnhancerProvider"
     factory=".adapters.ATFileEnhanceLink"
     />
   <adapter
+    zcml:condition="not-have plone-52"
     for="Products.ATContentTypes.interface.IATImage"
     provides="collective.outputfilters.enhancelinks.interfaces.ILinkEnhancerProvider"
     factory=".adapters.ATImageEnhanceLink"
