@@ -1,27 +1,28 @@
 # -*- coding: utf-8 -*-
 """Setup tests for this package."""
 from collective.outputfilters.enhancelinks.interfaces import ILinkEnhancerProvider  # noqa
-from collective.outputfilters.enhancelinks.tests.base import BaseTest
 from collective.outputfilters.enhancelinks.testing import COLLECTIVE_OUTPUTFILTERS_enhancelinks_FUNCTIONAL_TESTING  # noqa
+from collective.outputfilters.enhancelinks.tests.base import BaseTest
 from plone import api
 from plone.app.testing import login
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
 from plone.app.testing import TEST_USER_NAME
 
+
 FILE_ICON_URLS = [
     'http://nohost/plone/pdf.png',
-    'http://nohost/plone/++resource++mimetype.icons/pdf.png'
+    'http://nohost/plone/++resource++mimetype.icons/pdf.png',
 ]
 
 IMAGE_ICON_URLS = [
     'http://nohost/plone/image.png',
-    'http://nohost/plone/++resource++mimetype.icons/image.png'
+    'http://nohost/plone/++resource++mimetype.icons/image.png',
 ]
 
 FILE_DOWNLOAD_URLS = [
     '/at_download/file/file.pdf',
-    '/@@download/file/file.pdf'
+    '/@@download/file/file.pdf',
 ]
 
 
@@ -59,6 +60,7 @@ class TestAdapter(BaseTest):
         # I pass False because it isn't a DX content
         file_item = self.get_right_file(item=self.file, type='file')
         image_item = self.get_right_file(item=self.image, type='image')
+
         mimetype = self.extract_mimetype(file_item)
         self.assertEqual(len(mimetype), 1)
         self.assertEqual(mimetype[0].id, 'PDF document')
