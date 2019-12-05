@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
-from zope.interface import implementer
-from plone import api
 from collective.outputfilters.enhancelinks.interfaces import ILinkEnhancerProvider
+from plone import api
+from zope.interface import implementer
+import mimetypes
 
 SIZE_CONST = {
     'KB': 1024,
@@ -41,6 +42,29 @@ class BaseEnhanceLink(object):
         # mime.append(mtr.lookup("application/octet-stream")[0])
         return mime
 
+    def fix_mime_extension(self, mime_infos):
+        """ Two jobs for this method:
+        a. It seems that if you `lookup` the  `text/csv` MIME type with the
+        mimetypes_registry, the informations retrived are incomplete
+        (the object returned, for example, doesn't have any extension
+        specified). To avoid this problem, we add one more check using the
+        standard mimetypes python library. (RER rm#20156)
+
+        b. Remove dots from extensions if any.
+        """
+        exts = []
+
+        if not mime_infos.extensions:
+            for mimetype in mime_infos.mimetypes:
+                if mimetypes.guess_extension(mimetype):
+                    exts.append(mimetypes.guess_extension(mimetype).replace(".", ""))
+            mime_infos.extensions = tuple(exts)
+        else:
+            without_dots = [x.replace(".", "") for x in mime_infos.extensions]
+            mime_infos.extensions = tuple(without_dots)
+
+        return mime_infos
+
     def get_formatted_size(self, content_file):
         smaller = SIZE_ORDER[-1]
         # allow arbitrary sizes to be passed through,
@@ -74,6 +98,7 @@ class BaseEnhanceLink(object):
         """
         result = {}
         for mime_infos in mime:
+            mime_infos = self.fix_mime_extension(mime_infos)
             # set icon_url
             if hasattr(mime_infos, 'icon_path') and not result.get('icon_url'):
                 result['icon_url'] = self.get_icon_url(mime_infos)

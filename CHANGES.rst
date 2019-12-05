@@ -5,7 +5,9 @@ Changelog
 0.4.6 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Patched a problem to avoid issues with csv files that doesn't seem to be
+  recognize by `Products.MimetypesRegistry`.
+  [arsenico13]
 
 
 0.4.5 (2019-01-24)
