@@ -2,7 +2,9 @@
 from collective.outputfilters.enhancelinks.interfaces import ILinkEnhancerProvider
 from plone import api
 from zope.interface import implementer
+
 import mimetypes
+
 
 SIZE_CONST = {
     'KB': 1024,
