@@ -19,22 +19,24 @@ class CollectiveOutputfiltersenhancelinksLayer(PloneSandboxLayer):
         self.loadZCML(package=collective.outputfilters.enhancelinks)
 
     def setUpPloneSite(self, portal):
-        if api.env.plone_version() >= '5.0':
-            applyProfile(portal, 'plone.app.contenttypes:default')
+        if api.env.plone_version() >= "5.0":
+            applyProfile(portal, "plone.app.contenttypes:default")
 
 
-COLLECTIVE_OUTPUTFILTERS_enhancelinks_FIXTURE = CollectiveOutputfiltersenhancelinksLayer()
+COLLECTIVE_OUTPUTFILTERS_enhancelinks_FIXTURE = (
+    CollectiveOutputfiltersenhancelinksLayer()
+)
 
 
 COLLECTIVE_OUTPUTFILTERS_enhancelinks_INTEGRATION_TESTING = IntegrationTesting(
     bases=(COLLECTIVE_OUTPUTFILTERS_enhancelinks_FIXTURE,),
-    name='CollectiveOutputfiltersenhancelinksLayer:IntegrationTesting',
+    name="CollectiveOutputfiltersenhancelinksLayer:IntegrationTesting",
 )
 
 
 COLLECTIVE_OUTPUTFILTERS_enhancelinks_FUNCTIONAL_TESTING = FunctionalTesting(
     bases=(COLLECTIVE_OUTPUTFILTERS_enhancelinks_FIXTURE,),
-    name='CollectiveOutputfiltersenhancelinksLayer:FunctionalTesting',
+    name="CollectiveOutputfiltersenhancelinksLayer:FunctionalTesting",
 )
 
 
@@ -44,5 +46,5 @@ COLLECTIVE_OUTPUTFILTERS_enhancelinks_ACCEPTANCE_TESTING = FunctionalTesting(
         REMOTE_LIBRARY_BUNDLE_FIXTURE,
         z2.ZSERVER_FIXTURE,
     ),
-    name='CollectiveOutputfiltersenhancelinksLayer:AcceptanceTesting',
+    name="CollectiveOutputfiltersenhancelinksLayer:AcceptanceTesting",
 )

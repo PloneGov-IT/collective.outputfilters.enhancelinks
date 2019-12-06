@@ -1,33 +1,31 @@
 # -*- coding: utf-8 -*-
-from collective.outputfilters.enhancelinks.interfaces import ILinkEnhancerProvider
+from collective.outputfilters.enhancelinks.interfaces import (
+    ILinkEnhancerProvider,
+)
 from plone import api
 from zope.interface import implementer
 
 import mimetypes
 
 
-SIZE_CONST = {
-    'KB': 1024,
-    'MB': 1024 * 1024,
-    'GB': 1024 * 1024 * 1024}
-SIZE_ORDER = ('GB', 'MB', 'KB')
+SIZE_CONST = {"KB": 1024, "MB": 1024 * 1024, "GB": 1024 * 1024 * 1024}
+SIZE_ORDER = ("GB", "MB", "KB")
 
 
 @implementer(ILinkEnhancerProvider)
 class BaseEnhanceLink(object):
-
     def __init__(self, context):
         self.context = context
 
     def get_url_suffix(self, filename):
-        return ''
+        return ""
 
     def get_icon_url(self, mime_infos):
         portal_url = api.portal.get().absolute_url()
-        return '{0}/{1}'.format(portal_url, mime_infos.icon_path)
+        return "{0}/{1}".format(portal_url, mime_infos.icon_path)
 
     def get_extension(self, content_file, mime_infos):
-        extension = content_file.filename.split('.')[-1]
+        extension = content_file.filename.split(".")[-1]
         if extension in mime_infos.extensions:
             return extension
         return
@@ -37,7 +35,7 @@ class BaseEnhanceLink(object):
         Return a list of possible mimetypes of the given file from
         mimetypes registry
         """
-        mtr = api.portal.get_tool(name='mimetypes_registry')
+        mtr = api.portal.get_tool(name="mimetypes_registry")
         mime = list(mtr.lookup(filetype))
         if not mime and filename:
             mime.append(mtr.lookupExtension(filename))
@@ -59,7 +57,9 @@ class BaseEnhanceLink(object):
         if not mime_infos.extensions:
             for mimetype in mime_infos.mimetypes:
                 if mimetypes.guess_extension(mimetype):
-                    exts.append(mimetypes.guess_extension(mimetype).replace(".", ""))
+                    exts.append(
+                        mimetypes.guess_extension(mimetype).replace(".", "")
+                    )
             mime_infos.extensions = tuple(exts)
         else:
             without_dots = [x.replace(".", "") for x in mime_infos.extensions]
@@ -73,26 +73,26 @@ class BaseEnhanceLink(object):
         # if there is no size, but there is an object
         # look up the object, this maintains backwards
         # compatibility
-        if hasattr(content_file, 'get_size'):
+        if hasattr(content_file, "get_size"):
             size = content_file.get_size()
-        elif hasattr(content_file, 'size'):
+        elif hasattr(content_file, "size"):
             size = content_file.size
-        elif hasattr(content_file, 'getSize'):
+        elif hasattr(content_file, "getSize"):
             size = content_file.getSize()
         # if the size is a float, then make it an int
         # happens for large files
         try:
             size = int(size)
         except (ValueError, TypeError):
-            return ''
+            return ""
         if not size:
-            return ''
+            return ""
         if size < SIZE_CONST[smaller]:
-            return '1 {0}'.format(smaller)
+            return "1 {0}".format(smaller)
         for c in SIZE_ORDER:
             if size / SIZE_CONST[c] > 0:
                 break
-        return '%.1f %s' % (float(size / float(SIZE_CONST[c])), c)
+        return "%.1f %s" % (float(size / float(SIZE_CONST[c])), c)
 
     def extract_infos(self, content_file, mime):
         """
@@ -102,21 +102,22 @@ class BaseEnhanceLink(object):
         for mime_infos in mime:
             mime_infos = self.fix_mime_extension(mime_infos)
             # set icon_url
-            if hasattr(mime_infos, 'icon_path') and not result.get('icon_url'):
-                result['icon_url'] = self.get_icon_url(mime_infos)
+            if hasattr(mime_infos, "icon_path") and not result.get("icon_url"):
+                result["icon_url"] = self.get_icon_url(mime_infos)
             # set extension
-            if hasattr(mime_infos, 'extensions') and not result.get('extension'):
-                result['extension'] = self.get_extension(
-                    content_file,
-                    mime_infos)
+            if hasattr(mime_infos, "extensions") and not result.get(
+                "extension"
+            ):
+                result["extension"] = self.get_extension(
+                    content_file, mime_infos
+                )
         # set size
-        result['size'] = self.get_formatted_size(content_file)
-        result['url_suffix'] = self.get_url_suffix(content_file.filename)
+        result["size"] = self.get_formatted_size(content_file)
+        result["url_suffix"] = self.get_url_suffix(content_file.filename)
         return result
 
 
 class ATFileEnhanceLink(BaseEnhanceLink):
-
     def get_link_details(self):
         """
         Return some additional details from given content
@@ -125,24 +126,22 @@ class ATFileEnhanceLink(BaseEnhanceLink):
         if not content_file:
             return {}
         mime = self.guess_mimetype(
-            content_file.getContentType(),
-            content_file.filename)
+            content_file.getContentType(), content_file.filename
+        )
         if not mime:
             return {}
         return self.extract_infos(content_file, mime)
 
     def get_url_suffix(self, filename):
-        return '/at_download/file/{0}'.format(filename)
+        return "/at_download/file/{0}".format(filename)
 
 
 class ATImageEnhanceLink(ATFileEnhanceLink):
-
     def get_url_suffix(self, filename):
-        return ''
+        return ""
 
 
 class DXFileEnhanceLink(BaseEnhanceLink):
-
     def get_link_details(self):
         """
         Return some additional details from given content
@@ -151,19 +150,18 @@ class DXFileEnhanceLink(BaseEnhanceLink):
         if not content_file:
             return {}
         mime = self.guess_mimetype(
-            content_file.contentType,
-            content_file.filename)
+            content_file.contentType, content_file.filename
+        )
         if not mime:
             return {}
         return self.extract_infos(content_file, mime)
 
     def get_url_suffix(self, filename):
-        filename = filename.encode('utf-8')
-        return '/@@download/file/{0}'.format(filename)
+        filename = filename.encode("utf-8")
+        return "/@@download/file/{0}".format(filename)
 
 
 class DXImageEnhanceLink(BaseEnhanceLink):
-
     def get_link_details(self):
         """
         Return some additional details from given content
@@ -172,8 +170,8 @@ class DXImageEnhanceLink(BaseEnhanceLink):
         if not content_file:
             return {}
         mime = self.guess_mimetype(
-            content_file.contentType,
-            content_file.filename)
+            content_file.contentType, content_file.filename
+        )
         if not mime:
             return {}
         return self.extract_infos(content_file, mime)
