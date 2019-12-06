@@ -96,14 +96,13 @@ Compatibility
 
 This product has been tested on:
 
-* Plone 4.2
-* Plone 4.3
 * Plone 5.0
 * Plone 5.1
+* Plone 5.2
 
 It works with Dexterity-based (`plone.app.contenttypes`__) standard File and
-Image content-types. If you want support for Archetype-based content-types,
-go with versions < 1.0.0.
+Image content-types. If you want support for Archetype-based content-types or
+Plone 4 compatibility, go with versions < 1.0.0.
 
 __ http://pypi.python.org/pypi/plone.app.contenttypes
 
