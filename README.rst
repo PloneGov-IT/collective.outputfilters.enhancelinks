@@ -101,8 +101,9 @@ This product has been tested on:
 * Plone 5.0
 * Plone 5.1
 
-It works with Archetype-based and Dexterity-based (`plone.app.contenttypes`__)
-standard File and Image content-types.
+It works with Dexterity-based (`plone.app.contenttypes`__) standard File and
+Image content-types. If you want support for Archetype-based content-types,
+go with versions < 1.0.0.
 
 __ http://pypi.python.org/pypi/plone.app.contenttypes
 
