@@ -72,7 +72,7 @@ class TestAdapter(BaseTest):
             image=self.get_attachment(u"image.jpg", type="image"),
         )
         self.document = api.content.create(
-            type="Document", title="A page", container=self.portal
+            type="Document", title="A page", container=self.portal,
         )
         self.file_provider = ILinkEnhancerProvider(self.file, None)
         self.csv_provider = ILinkEnhancerProvider(self.csv, None)
@@ -112,15 +112,15 @@ class TestAdapter(BaseTest):
         """Test if the method returns a correct obj size"""
         # File PDF
         self.assertEqual(
-            self.file_provider.get_formatted_size(self.file.file), "8.4 KB"
+            self.file_provider.get_formatted_size(self.file.file), "8.4 KB",
         )
         # CSV
         self.assertEqual(
-            self.csv_provider.get_formatted_size(self.csv.file), "14.7 KB"
+            self.csv_provider.get_formatted_size(self.csv.file), "14.7 KB",
         )
         # Image
         self.assertEqual(
-            self.img_provider.get_formatted_size(self.image.image), "5.0 KB"
+            self.img_provider.get_formatted_size(self.image.image), "5.0 KB",
         )
 
     def test_adapter_extract_infos_from_mime(self):
