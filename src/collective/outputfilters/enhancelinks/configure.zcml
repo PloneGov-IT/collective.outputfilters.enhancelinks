@@ -16,16 +16,6 @@
   />
 
   <!-- content-type adapters -->
-  <adapter
-    for="Products.ATContentTypes.interface.IATFile"
-    provides="collective.outputfilters.enhancelinks.interfaces.ILinkEnhancerProvider"
-    factory=".adapters.ATFileEnhanceLink"
-    />
-  <adapter
-    for="Products.ATContentTypes.interface.IATImage"
-    provides="collective.outputfilters.enhancelinks.interfaces.ILinkEnhancerProvider"
-    factory=".adapters.ATImageEnhanceLink"
-    />
     <!-- DX Items -->
     <adapter
       zcml:condition="installed plone.app.contenttypes"

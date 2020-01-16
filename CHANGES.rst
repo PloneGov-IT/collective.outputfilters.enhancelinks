@@ -2,10 +2,16 @@ Changelog
 =========
 
 
-0.4.6 (unreleased)
+1.0.0 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- REMOVED SUPPORT FOR AT CONTENT TYPES. AT support is only in version < 1.0.0.
+  [arsenico13]
+- Patched a problem to avoid issues with csv files that doesn't seem to be
+  recognize by `Products.MimetypesRegistry`.
+  [arsenico13]
+- Update tests for csv files.
+  [arsenico13]
 
 
 0.4.5 (2019-01-24)
