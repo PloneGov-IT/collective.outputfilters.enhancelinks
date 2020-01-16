@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.0.0 (unreleased)
+1.0.0 (2020-01-16)
 ------------------
 
 - REMOVED SUPPORT FOR AT CONTENT TYPES. AT support is only in version < 1.0.0.
