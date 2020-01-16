@@ -1,5 +1,5 @@
 graft src/collective
-graft docs/
+graft docs
 include *.cfg *.rst *.in
 include *.py
 exclude .coveragerc
@@ -7,6 +7,12 @@ exclude .editorconfig
 exclude .gitattributes
 exclude .installed.cfg
 exclude .mr.developer.cfg
+exclude .gitlab-ci.yml
+exclude constraints.txt
+exclude constraints_plone51.txt
+exclude constraints_plone52.txt
+exclude pyproject.toml
+exclude requirements.txt
 recursive-include docs *.GPL
 recursive-include docs *.rst
 global-exclude *pyc
