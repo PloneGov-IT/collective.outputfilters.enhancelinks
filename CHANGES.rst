@@ -5,7 +5,8 @@ Changelog
 1.0.1 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Refactored mimetypes patch to avoid transaction writes on every call.
+  [cekk]
 
 
 1.0.0 (2020-01-16)
