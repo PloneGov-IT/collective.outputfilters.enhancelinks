@@ -2,7 +2,7 @@
 from collective.outputfilters.enhancelinks import logger
 from collective.outputfilters.enhancelinks.interfaces import (
     ILinkEnhancerProvider,
-)  # noqa
+)
 from lxml import etree
 from lxml import html
 from plone import api
@@ -48,7 +48,9 @@ class EnhanceLinks(object):
         except AssertionError as e:
             logger.exception(e)
             logger.warning(
-                "Transformation not applied in {0}".format(self.context.absolute_url())
+                "Transformation not applied in {0}".format(
+                    self.context.absolute_url()
+                )
             )
             return None
         if not created_parent:
@@ -89,7 +91,9 @@ class EnhanceLinks(object):
         if not link_details:
             return
         additional_infos = [
-            x for x in (link_details.get("extension"), link_details.get("size")) if x
+            x
+            for x in (link_details.get("extension"), link_details.get("size"))
+            if x
         ]
         if additional_infos and text:
             text = text.encode("utf-8")
@@ -108,7 +112,9 @@ class EnhanceLinks(object):
             icon_tag.tail = " "
             node_children = node.getchildren()
             if node_children:
-                node_children[-1].tail = " ({0})".format(", ".join(additional_infos))
+                node_children[-1].tail = " ({0})".format(
+                    ", ".join(additional_infos)
+                )
         if link_details.get("url_suffix"):
             self.update_href(node, link_details)
 
@@ -117,10 +123,13 @@ class EnhanceLinks(object):
             # suffix is already present in the link, so skip it
             return
         try:
-            new_url = "{0}{1}".format(node.get("href"), link_details.get("url_suffix"))
+            new_url = "{0}{1}".format(
+                node.get("href"), link_details.get("url_suffix")
+            )
         except (UnicodeDecodeError, UnicodeEncodeError):
             new_url = "{0}{1}".format(
-                node.get("href").encode("utf-8"), link_details.get("url_suffix")
+                node.get("href").encode("utf-8"),
+                link_details.get("url_suffix"),
             )
             new_url = new_url.decode("utf-8")
         try:
