@@ -2,14 +2,12 @@
 from collective.outputfilters.enhancelinks.interfaces import (
     ILinkEnhancerProvider,
 )
+from humanfriendly import format_size
 from plone import api
 from zope.interface import implementer
 
 import mimetypes
-
-
-SIZE_CONST = {"KB": 1024, "MB": 1024 * 1024, "GB": 1024 * 1024 * 1024}
-SIZE_ORDER = ("GB", "MB", "KB")
+import six
 
 
 @implementer(ILinkEnhancerProvider)
@@ -67,7 +65,6 @@ class BaseEnhanceLink(object):
             return tuple(without_dots)
 
     def get_formatted_size(self, content_file):
-        smaller = SIZE_ORDER[-1]
         # allow arbitrary sizes to be passed through,
         # if there is no size, but there is an object
         # look up the object, this maintains backwards
@@ -84,14 +81,7 @@ class BaseEnhanceLink(object):
             size = int(size)
         except (ValueError, TypeError):
             return ""
-        if not size:
-            return ""
-        if size < SIZE_CONST[smaller]:
-            return "1 {0}".format(smaller)
-        for c in SIZE_ORDER:
-            if size / SIZE_CONST[c] > 0:
-                break
-        return "%.1f %s" % (float(size / float(SIZE_CONST[c])), c)
+        return format_size(size)
 
     def extract_infos(self, content_file, mime):
         """
@@ -153,7 +143,8 @@ class DXFileEnhanceLink(BaseEnhanceLink):
         return self.extract_infos(content_file, mime)
 
     def get_url_suffix(self, filename):
-        filename = filename.encode("utf-8")
+        if six.PY2:
+            filename = filename.encode("utf-8")
         return "/@@download/file/{0}".format(filename)
 
 
