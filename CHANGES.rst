@@ -7,7 +7,10 @@ Changelog
 
 - Refactored mimetypes patch to avoid transaction writes on every call.
   [cekk]
-
+- Python 3 compatibility.
+  [cekk]
+- Use `humanfriendly` for print file size informations.
+  [cekk]
 
 1.0.0 (2020-01-16)
 ------------------
