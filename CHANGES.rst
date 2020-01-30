@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.0.1 (unreleased)
+1.1.0 (2020-01-30)
 ------------------
 
 - Refactored mimetypes patch to avoid transaction writes on every call.
