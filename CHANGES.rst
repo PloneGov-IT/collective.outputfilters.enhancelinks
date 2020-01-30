@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.1.1 (unreleased)
+1.1.1 (2020-01-30)
 ------------------
 
 - Fix links in readme.
