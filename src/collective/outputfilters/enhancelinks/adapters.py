@@ -2,14 +2,12 @@
 from collective.outputfilters.enhancelinks.interfaces import (
     ILinkEnhancerProvider,
 )
+from humanfriendly import format_size
 from plone import api
 from zope.interface import implementer
 
 import mimetypes
-
-
-SIZE_CONST = {"KB": 1024, "MB": 1024 * 1024, "GB": 1024 * 1024 * 1024}
-SIZE_ORDER = ("GB", "MB", "KB")
+import six
 
 
 @implementer(ILinkEnhancerProvider)
@@ -26,7 +24,8 @@ class BaseEnhanceLink(object):
 
     def get_extension(self, content_file, mime_infos):
         extension = content_file.filename.split(".")[-1]
-        if extension in mime_infos.extensions:
+        mime_extensions = self.get_right_mime_extensions(mime_infos)
+        if extension in mime_extensions:
             return extension
         return
 
@@ -42,7 +41,7 @@ class BaseEnhanceLink(object):
         # mime.append(mtr.lookup("application/octet-stream")[0])
         return mime
 
-    def fix_mime_extension(self, mime_infos):
+    def get_right_mime_extensions(self, mime_infos):
         """ Two jobs for this method:
         a. It seems that if you `lookup` the  `text/csv` MIME type with the
         mimetypes_registry, the informations retrived are incomplete
@@ -60,15 +59,12 @@ class BaseEnhanceLink(object):
                     exts.append(
                         mimetypes.guess_extension(mimetype).replace(".", "")
                     )
-            mime_infos.extensions = tuple(exts)
+            return tuple(exts)
         else:
             without_dots = [x.replace(".", "") for x in mime_infos.extensions]
-            mime_infos.extensions = tuple(without_dots)
-
-        return mime_infos
+            return tuple(without_dots)
 
     def get_formatted_size(self, content_file):
-        smaller = SIZE_ORDER[-1]
         # allow arbitrary sizes to be passed through,
         # if there is no size, but there is an object
         # look up the object, this maintains backwards
@@ -85,14 +81,7 @@ class BaseEnhanceLink(object):
             size = int(size)
         except (ValueError, TypeError):
             return ""
-        if not size:
-            return ""
-        if size < SIZE_CONST[smaller]:
-            return "1 {0}".format(smaller)
-        for c in SIZE_ORDER:
-            if size / SIZE_CONST[c] > 0:
-                break
-        return "%.1f %s" % (float(size / float(SIZE_CONST[c])), c)
+        return format_size(size)
 
     def extract_infos(self, content_file, mime):
         """
@@ -100,14 +89,11 @@ class BaseEnhanceLink(object):
         """
         result = {}
         for mime_infos in mime:
-            mime_infos = self.fix_mime_extension(mime_infos)
             # set icon_url
             if hasattr(mime_infos, "icon_path") and not result.get("icon_url"):
                 result["icon_url"] = self.get_icon_url(mime_infos)
             # set extension
-            if hasattr(mime_infos, "extensions") and not result.get(
-                "extension"
-            ):
+            if not result.get("extension"):
                 result["extension"] = self.get_extension(
                     content_file, mime_infos
                 )
@@ -157,7 +143,8 @@ class DXFileEnhanceLink(BaseEnhanceLink):
         return self.extract_infos(content_file, mime)
 
     def get_url_suffix(self, filename):
-        filename = filename.encode("utf-8")
+        if six.PY2:
+            filename = filename.encode("utf-8")
         return "/@@download/file/{0}".format(filename)
 
 

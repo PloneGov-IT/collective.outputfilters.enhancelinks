@@ -2,7 +2,7 @@
 from collective.outputfilters.enhancelinks import logger
 from collective.outputfilters.enhancelinks.interfaces import (
     ILinkEnhancerProvider,
-)  # noqa
+)
 from lxml import etree
 from lxml import html
 from plone import api
@@ -12,6 +12,7 @@ from plone.outputfilters.filters.resolveuid_and_caption import (
 from plone.outputfilters.filters.resolveuid_and_caption import resolveuid_re
 from zope.cachedescriptors.property import Lazy as lazy_property
 from zope.component import getAllUtilitiesRegisteredFor
+import six
 
 
 class EnhanceLinks(object):
@@ -37,7 +38,7 @@ class EnhanceLinks(object):
         """
         Transform the given html string into xml
         """
-        if not isinstance(data, unicode):
+        if not isinstance(data, six.text_type):
             data = data.decode("utf-8")
         created_parent = False
         try:
@@ -48,7 +49,9 @@ class EnhanceLinks(object):
         except AssertionError as e:
             logger.exception(e)
             logger.warning(
-                "Transformation not applied in {0}".format(self.context.absolute_url())
+                "Transformation not applied in {0}".format(
+                    self.context.absolute_url()
+                )
             )
             return None
         if not created_parent:
@@ -89,10 +92,13 @@ class EnhanceLinks(object):
         if not link_details:
             return
         additional_infos = [
-            x for x in (link_details.get("extension"), link_details.get("size")) if x
+            x
+            for x in (link_details.get("extension"), link_details.get("size"))
+            if x
         ]
         if additional_infos and text:
-            text = text.encode("utf-8")
+            if six.PY2:
+                text = text.encode("utf-8")
             text = " {0} ({1})".format(text, ", ".join(additional_infos))
         if link_details.get("icon_url"):
             icon_tag = etree.Element("img")
@@ -101,27 +107,34 @@ class EnhanceLinks(object):
             node.insert(0, icon_tag)
         if text:
             # move text after the image
-            text = text.decode("utf-8")
+            if six.PY2:
+                text = text.decode("utf-8")
             icon_tag.tail = text
             node.text = ""
         else:
             icon_tag.tail = " "
             node_children = node.getchildren()
             if node_children:
-                node_children[-1].tail = " ({0})".format(", ".join(additional_infos))
+                node_children[-1].tail = " ({0})".format(
+                    ", ".join(additional_infos)
+                )
         if link_details.get("url_suffix"):
             self.update_href(node, link_details)
 
     def update_href(self, node, link_details):
-        if link_details.get("url_suffix") in node.get("href").encode("utf-8"):
+        if six.PY2:
+            href = node.get("href").encode("utf-8")
+        else:
+            href = node.get("href")
+        if link_details.get("url_suffix") in href:
             # suffix is already present in the link, so skip it
             return
         try:
-            new_url = "{0}{1}".format(node.get("href"), link_details.get("url_suffix"))
-        except (UnicodeDecodeError, UnicodeEncodeError):
             new_url = "{0}{1}".format(
-                node.get("href").encode("utf-8"), link_details.get("url_suffix")
+                node.get("href"), link_details.get("url_suffix")
             )
+        except (UnicodeDecodeError, UnicodeEncodeError):
+            new_url = "{0}{1}".format(href, link_details.get("url_suffix"))
             new_url = new_url.decode("utf-8")
         try:
             node.set("href", new_url)
@@ -156,10 +169,13 @@ class EnhanceLinks(object):
         # generate the new html
         raw_html = ""
         for tag in root_node.getchildren():
-            raw_html += etree.tostring(tag, encoding="utf-8", method="html")
+            tag_html = etree.tostring(tag, encoding="utf-8", method="html")
+            if six.PY3:
+                tag_html = tag_html.decode('utf-8')
+            raw_html += tag_html
             tail = tag.tail
             if tail:
-                if isinstance(tail, unicode):
+                if isinstance(tail, six.text_type):
                     tail = tail.encode("utf-8")
                 raw_html += tail
         self.data = raw_html
