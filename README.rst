@@ -11,6 +11,8 @@ Tiny MCE's internal link.
 It's a substitute of `collective.tinymceplugins.advfilelinks`__,
 that doesn't work with Plone >= 4.3 because it uses Products.TinyMCE >= 1.3.
 
+__ https://github.com/RedTurtle/collective.tinymceplugins.advfilelinks
+
 .. contents:: **Table of contents**
 
 
