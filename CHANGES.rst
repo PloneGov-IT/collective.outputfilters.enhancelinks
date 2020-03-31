@@ -5,7 +5,8 @@ Changelog
 1.1.2 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Fixed extra infos in link description.
+  [daniele]
 
 
 1.1.1 (2020-01-30)

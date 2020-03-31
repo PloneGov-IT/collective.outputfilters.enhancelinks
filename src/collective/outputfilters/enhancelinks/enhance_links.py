@@ -96,10 +96,22 @@ class EnhanceLinks(object):
             for x in (link_details.get("extension"), link_details.get("size"))
             if x
         ]
-        if additional_infos and text:
+        if node.getchildren():
+            child = node.getchildren()[-1]
+            if child.tail:
+                child_postfix_text = child.tail
+            else:
+                child_postfix_text = ""
+            if six.PY2:
+                child_postfix_text = child_postfix_text.encode("utf-8")
+            child_postfix_text = "{0} ({1})".format(child_postfix_text, ", ".join(additional_infos))
+            child.tail = child_postfix_text
+            if six.PY2:
+                child.tail = child_postfix_text.decode('utf-8')
+        elif additional_infos and text:
             if six.PY2:
                 text = text.encode("utf-8")
-            text = " {0} ({1})".format(text, ", ".join(additional_infos))
+            text = "{0} ({1})".format(text, ", ".join(additional_infos))
         if link_details.get("icon_url"):
             icon_tag = etree.Element("img")
             icon_tag.set("src", link_details.get("icon_url"))
@@ -114,7 +126,7 @@ class EnhanceLinks(object):
         else:
             icon_tag.tail = " "
             node_children = node.getchildren()
-            if node_children:
+            if node_children and not node_children[-1].tail:
                 node_children[-1].tail = " ({0})".format(
                     ", ".join(additional_infos)
                 )
