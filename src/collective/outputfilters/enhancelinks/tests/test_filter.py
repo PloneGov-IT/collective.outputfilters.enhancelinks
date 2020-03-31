@@ -72,7 +72,10 @@ class TestFilter(BaseTest):
         self.assertIn('internal link (pdf, 8.56 KB)', parsed_html)
 
     def test_filter_with_link_to_file_formatted_text(self):
-        """Test if the filter works properly with a link to a file"""
+        """
+        Test if the filter works properly with a link to a file
+        when text is formatted. Extra infos should be placed at the end.
+        """
         file_obj = api.content.create(
             type='File',
             title='file',
