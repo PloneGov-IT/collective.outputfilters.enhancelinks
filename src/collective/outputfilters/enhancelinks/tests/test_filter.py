@@ -84,8 +84,8 @@ class TestFilter(BaseTest):
         )
         html = (
             '<li><a href="resolveuid/{0}" data-linktype="internal">'
-            '<strong>Guida <em>alle</em></strong> operazioni: '
-            '<strong>istruzioni</strong></a></li>'.format(file_obj.UID())
+            '<strong>Testing <em>link</em></strong> with '
+            '<strong>formatted text</strong></a></li>'.format(file_obj.UID())
         )
         parsed_html = self.output_filter(html)
         self.assertIn(self.file_icon_compare_str(), parsed_html)  # noqa
