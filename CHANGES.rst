@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.1.2 (unreleased)
+1.1.2 (2020-04-21)
 ------------------
 
 - Fixed extra infos in link description.
