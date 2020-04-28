@@ -103,7 +103,6 @@ class EnhanceLinks(object):
                 child_postfix_text = child.tail
             else:
                 child_postfix_text = ""
-           
             additional_infos = " ({0})".format(", ".join(additional_infos))
             child_postfix_text = child_postfix_text + additional_infos
             child.tail = child_postfix_text
