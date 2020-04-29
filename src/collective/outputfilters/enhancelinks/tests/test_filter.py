@@ -91,6 +91,26 @@ class TestFilter(BaseTest):
         self.assertIn(self.file_icon_compare_str(), parsed_html)  # noqa
         self.assertIn('(pdf, 8.56 KB)</a>', parsed_html)
 
+    def test_filter_with_link_to_file_special_characters_text(self):
+        """
+        Test if the filter works properly with a link to a file
+        when text is formatted. Extra infos should be placed at the end.
+        """
+        file_obj = api.content.create(
+            type='File',
+            title='file',
+            container=self.portal,
+            file=self.get_attachment(u'file.pdf', type='file'),
+        )
+        html = (
+            '<li><a href="resolveuid/{0}" data-linktype="internal">'
+            "<strong>Let’s testing <em>link</em></strong> with à"
+            '<strong>special text</strong></a></li>'.format(file_obj.UID())
+        )
+        parsed_html = self.output_filter(html)
+        self.assertIn(self.file_icon_compare_str(), parsed_html)  # noqa
+        self.assertIn('(pdf, 8.56 KB)</a>', parsed_html)
+
     def test_filter_skip_with_link_to_file(self):
         """
         Test if the filter works properly with a link to a file and skip a link

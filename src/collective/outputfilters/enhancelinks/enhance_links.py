@@ -96,18 +96,16 @@ class EnhanceLinks(object):
             for x in (link_details.get("extension"), link_details.get("size"))
             if x
         ]
+
         if node.getchildren():
             child = node.getchildren()[-1]
             if child.tail:
                 child_postfix_text = child.tail
             else:
                 child_postfix_text = ""
-            if six.PY2:
-                child_postfix_text = child_postfix_text.encode("utf-8")
-            child_postfix_text = "{0} ({1})".format(child_postfix_text, ", ".join(additional_infos))
+            additional_infos = " ({0})".format(", ".join(additional_infos))
+            child_postfix_text = child_postfix_text + additional_infos
             child.tail = child_postfix_text
-            if six.PY2:
-                child.tail = child_postfix_text.decode('utf-8')
         elif additional_infos and text:
             if six.PY2:
                 text = text.encode("utf-8")
