@@ -96,7 +96,6 @@ class EnhanceLinks(object):
             for x in (link_details.get("extension"), link_details.get("size"))
             if x
         ]
-
         if node.getchildren():
             child = node.getchildren()[-1]
             if child.tail:
@@ -107,9 +106,8 @@ class EnhanceLinks(object):
             child_postfix_text = child_postfix_text + additional_infos
             child.tail = child_postfix_text
         elif additional_infos and text:
-            if six.PY2:
-                text = text.encode("utf-8")
-            text = "{0} ({1})".format(text, ", ".join(additional_infos))
+            additional_infos = " ({0})".format(", ".join(additional_infos))
+            text = text + additional_infos
         if link_details.get("icon_url"):
             icon_tag = etree.Element("img")
             icon_tag.set("src", link_details.get("icon_url"))
@@ -117,8 +115,6 @@ class EnhanceLinks(object):
             node.insert(0, icon_tag)
         if text:
             # move text after the image
-            if six.PY2:
-                text = text.decode("utf-8")
             icon_tag.tail = text
             node.text = ""
         else:
