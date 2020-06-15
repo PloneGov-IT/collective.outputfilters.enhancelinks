@@ -91,6 +91,28 @@ class TestFilter(BaseTest):
         self.assertIn(self.file_icon_compare_str(), parsed_html)  # noqa
         self.assertIn('(pdf, 8.56 KB)</a>', parsed_html)
 
+    def test_filter_with_another_html_tag_in_newline_after_link(self):
+        """
+        Test if the filter works properly with a link to a file
+        followed by a new line and another html element.
+        """
+        file_obj = api.content.create(
+            type='File',
+            title='file',
+            container=self.portal,
+            file=self.get_attachment(u'file.pdf', type='file'),
+        )
+        html = (
+            """
+            <p><a href="resolveuid/{0}" data-linktype="internal">
+            Test link with tail newline and extra paragraph</a></p>
+            <p>This is the extra paragraph</p>
+            """.format(file_obj.UID())
+        )
+        parsed_html = self.output_filter(html)
+        self.assertIn(self.file_icon_compare_str(), parsed_html)  # noqa
+        self.assertIn('(pdf, 8.56 KB)</a>', parsed_html)
+
     def test_filter_with_link_to_file_special_characters_text(self):
         """
         Test if the filter works properly with a link to a file

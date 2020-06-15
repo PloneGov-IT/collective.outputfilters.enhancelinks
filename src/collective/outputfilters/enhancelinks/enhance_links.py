@@ -181,8 +181,6 @@ class EnhanceLinks(object):
             raw_html += tag_html
             tail = tag.tail
             if tail:
-                if isinstance(tail, six.text_type):
-                    tail = tail.encode("utf-8")
                 raw_html += tail
         self.data = raw_html
 
