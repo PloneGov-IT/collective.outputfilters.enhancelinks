@@ -69,7 +69,7 @@ class TestFilter(BaseTest):
         )
         parsed_html = self.output_filter(html)
         self.assertIn(self.file_icon_compare_str(), parsed_html)  # noqa
-        self.assertIn('internal link (pdf, 8.56 KB)', parsed_html)
+        self.assertIn('class="attachmentLinkIcon" alt="pdf">8.56 KB)', parsed_html)
 
     def test_filter_with_link_to_file_formatted_text(self):
         """
@@ -89,7 +89,7 @@ class TestFilter(BaseTest):
         )
         parsed_html = self.output_filter(html)
         self.assertIn(self.file_icon_compare_str(), parsed_html)  # noqa
-        self.assertIn('(pdf, 8.56 KB)</a>', parsed_html)
+        self.assertIn('class="attachmentLinkIcon" alt="pdf">8.56 KB)', parsed_html)
 
     def test_filter_with_link_to_file_special_characters_text(self):
         """
@@ -109,7 +109,7 @@ class TestFilter(BaseTest):
         )
         parsed_html = self.output_filter(html)
         self.assertIn(self.file_icon_compare_str(), parsed_html)  # noqa
-        self.assertIn('(pdf, 8.56 KB)</a>', parsed_html)
+        self.assertIn('class="attachmentLinkIcon" alt="pdf">8.56 KB)', parsed_html)
 
     def test_filter_with_link_to_file_extra_characters_text(self):
         """
@@ -129,7 +129,7 @@ class TestFilter(BaseTest):
         )
         parsed_html = self.output_filter(html)
         self.assertIn(self.file_icon_compare_str(), parsed_html)  # noqa
-        self.assertIn('(pdf, 8.56 KB)</a>', parsed_html)
+        self.assertIn('class="attachmentLinkIcon" alt="pdf">8.56 KB)', parsed_html)
 
     def test_filter_skip_with_link_to_file(self):
         """
@@ -150,7 +150,7 @@ class TestFilter(BaseTest):
         )
         parsed_html = self.output_filter(html)
         self.assertNotIn(self.image_icon_compare_str(), parsed_html)  # noqa
-        self.assertNotIn('internal link (pdf, 8.56 KB)', parsed_html)
+        self.assertNotIn('class="attachmentLinkIcon" alt="pdf">8.56 KB)', parsed_html)
 
     def test_filter_with_link_to_image(self):
         """Test if the filter works properly with a link to an image"""
@@ -168,7 +168,7 @@ class TestFilter(BaseTest):
         )
         parsed_html = self.output_filter(html)
         self.assertIn(self.image_icon_compare_str(), parsed_html)  # noqa
-        self.assertIn('internal link (jpg, 5.13 KB)', parsed_html)
+        self.assertIn('class="attachmentLinkIcon" alt="jpg">5.13 KB)', parsed_html)
 
     def test_filter_with_oldstyle_link_to_document(self):
         """Test if the filter does nothing without hrefs in html"""
@@ -199,7 +199,7 @@ class TestFilter(BaseTest):
         )
         parsed_html = self.output_filter(html)
         self.assertIn(self.file_icon_compare_str(), parsed_html)  # noqa
-        self.assertIn('internal link (pdf, 8.56 KB)', parsed_html)
+        self.assertIn('class="attachmentLinkIcon" alt="pdf">8.56 KB)', parsed_html)
 
     def test_filter_with_oldstyle_link_to_file_multiple_classes(self):
         """
@@ -220,7 +220,7 @@ class TestFilter(BaseTest):
         )
         parsed_html = self.output_filter(html)
         self.assertIn(self.file_icon_compare_str(), parsed_html)  # noqa
-        self.assertIn('internal link (pdf, 8.56 KB)', parsed_html)
+        self.assertIn('class="attachmentLinkIcon" alt="pdf">8.56 KB)', parsed_html)
 
     def test_filter_skip_with_oldstyle_link_to_file(self):
         """
@@ -241,7 +241,7 @@ class TestFilter(BaseTest):
         )
         parsed_html = self.output_filter(html)
         self.assertNotIn(self.file_icon_compare_str(), parsed_html)  # noqa
-        self.assertNotIn('internal link (pdf, 8.56 KB)', parsed_html)
+        self.assertNotIn('class="attachmentLinkIcon" alt="pdf">8.56 KB)', parsed_html)
 
     def test_filter_with_oldstyle_link_to_image(self):
         """Test if the filter works properly with a link to an image"""
@@ -259,4 +259,4 @@ class TestFilter(BaseTest):
         )
         parsed_html = self.output_filter(html)
         self.assertIn(self.image_icon_compare_str(), parsed_html)  # noqa
-        self.assertIn('internal link (jpg, 5.13 KB)', parsed_html)
+        self.assertIn('class="attachmentLinkIcon" alt="jpg">5.13 KB)', parsed_html)
