@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.1.4 (unreleased)
+1.1.4 (2020-10-08)
 ------------------
 
 - Changed position of the attachment icon. Updated tests.
