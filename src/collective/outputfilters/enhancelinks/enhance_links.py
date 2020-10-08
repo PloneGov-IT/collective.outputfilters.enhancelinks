@@ -91,39 +91,26 @@ class EnhanceLinks(object):
         link_details = enhancer_provider.get_link_details()
         if not link_details:
             return
-        additional_infos = [
-            x
-            for x in (link_details.get("extension"), link_details.get("size"))
-            if x
-        ]
-        if node.getchildren():
-            child = node.getchildren()[-1]
-            if child.tail:
-                child_postfix_text = child.tail
-            else:
-                child_postfix_text = ""
-            additional_infos = " ({0})".format(", ".join(additional_infos))
-            child_postfix_text = child_postfix_text + additional_infos
-            child.tail = child_postfix_text
-        elif additional_infos and text:
-            additional_infos = " ({0})".format(", ".join(additional_infos))
-            text = text + additional_infos
+        icon_tag = ''
+        additional_infos = ''
         if link_details.get("icon_url"):
             icon_tag = etree.Element("img")
             icon_tag.set("src", link_details.get("icon_url"))
             icon_tag.set("class", "attachmentLinkIcon")
-            node.insert(0, icon_tag)
-        if text:
-            # move text after the image
-            icon_tag.tail = text
-            node.text = ""
-        else:
-            icon_tag.tail = " "
-            node_children = node.getchildren()
-            if node_children and not node_children[-1].tail:
-                node_children[-1].tail = " ({0})".format(
-                    ", ".join(additional_infos)
-                )
+            icon_tag.set("alt", link_details.get("extension") or "")
+            additional_infos = link_details.get("size") + ")"
+            icon_tag.tail = additional_infos
+
+        if node.getchildren():
+            child = node.getchildren()[-1]
+            if child.tail:
+                child.tail = child.tail + ' ('
+            else:
+                child.append(icon_tag)
+                child.tail = ' ('
+        elif additional_infos and text:
+            node.text = node.text + ' ('
+        node.append(icon_tag)
         if link_details.get("url_suffix"):
             self.update_href(node, link_details)
 

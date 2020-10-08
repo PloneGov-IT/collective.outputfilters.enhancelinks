@@ -5,7 +5,8 @@ Changelog
 1.1.4 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Changed position of the attachment icon. Updated tests.
+  [daniele]
 
 
 1.1.3 (2020-05-14)
