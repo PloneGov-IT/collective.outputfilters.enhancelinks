@@ -5,8 +5,8 @@ Changelog
 1.1.5 (unreleased)
 ------------------
 
-- Nothing changed yet.
-
+- Fix unicode issue.
+  [davide-targa]
 
 1.1.4 (2020-10-08)
 ------------------
