@@ -91,25 +91,28 @@ class EnhanceLinks(object):
         link_details = enhancer_provider.get_link_details()
         if not link_details:
             return
-        icon_tag = ''
-        additional_infos = ''
+        icon_tag = ""
+        additional_infos = ""
         if link_details.get("icon_url"):
             icon_tag = etree.Element("img")
             icon_tag.set("src", link_details.get("icon_url"))
             icon_tag.set("class", "attachmentLinkIcon")
             icon_tag.set("alt", link_details.get("extension") or "")
-            additional_infos = link_details.get("size") + ")"
+            additional_infos = "{0} {1})".format(
+                link_details.get("extension"),
+                link_details.get("size")
+            )
             icon_tag.tail = additional_infos
 
         if node.getchildren():
             child = node.getchildren()[-1]
             if child.tail:
-                child.tail = child.tail + ' ('
+                child.tail = child.tail + " ("
             else:
                 child.append(icon_tag)
-                child.tail = ' ('
+                child.tail = " ("
         elif additional_infos and text:
-            node.text = node.text + ' ('
+            node.text = node.text + " ("
         node.append(icon_tag)
         if link_details.get("url_suffix"):
             self.update_href(node, link_details)
@@ -164,7 +167,7 @@ class EnhanceLinks(object):
         for tag in root_node.getchildren():
             tag_html = etree.tostring(tag, encoding="utf-8", method="html")
             if six.PY3:
-                tag_html = tag_html.decode('utf-8')
+                tag_html = tag_html.decode("utf-8")
             raw_html += tag_html
             tail = tag.tail
             if tail:
