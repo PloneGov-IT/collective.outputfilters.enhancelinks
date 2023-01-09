@@ -5,7 +5,8 @@ Changelog
 1.1.5 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Python3 support.
+  [cekk]
 
 
 1.1.4 (2020-10-08)
