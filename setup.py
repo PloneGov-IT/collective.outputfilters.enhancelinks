@@ -18,7 +18,7 @@ long_description = (
 
 setup(
     name='collective.outputfilters.enhancelinks',
-    version='1.1.5',
+    version='1.1.6.dev0',
     description='An additional outputfilter that enhance file and image links informations in rich text',
     long_description=long_description,
     # Get more from http://pypi.python.org/pypi?%3Aaction=list_classifiers
