@@ -1,4 +1,3 @@
-from collective.outputfilters.enhancelinks.interfaces import ICollectiveOutputfiltersEnhancelinksLayer
 from plone.restapi.behaviors import IBlocks
 from plone.restapi.interfaces import IBlockFieldSerializationTransformer
 from plone.restapi.serializer.blocks import ResolveUIDSerializer
