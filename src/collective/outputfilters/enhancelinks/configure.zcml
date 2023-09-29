@@ -6,7 +6,7 @@
     xmlns:i18n="http://namespaces.zope.org/i18n"
     i18n_domain="collective.outputfilters.enhancelinks">
 
-  <includeDependencies package="." />
+  <include package=".restapi" />
 
   <adapter
     provides="plone.outputfilters.interfaces.IFilter"

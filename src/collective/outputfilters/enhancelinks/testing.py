@@ -12,7 +12,6 @@ import collective.outputfilters.enhancelinks
 
 
 class CollectiveOutputfiltersenhancelinksLayer(PloneSandboxLayer):
-
     defaultBases = (PLONE_FIXTURE,)
 
     def setUpZope(self, app, configurationContext):
