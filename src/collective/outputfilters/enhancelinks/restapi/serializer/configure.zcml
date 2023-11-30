@@ -8,7 +8,7 @@
     i18n_domain="plone.restapi"
     >
 
-    <subscriber
+  <subscriber
       factory=".blocks.ResolveUIDSerializerBaseWithPortalType"
       provides="plone.restapi.interfaces.IBlockFieldSerializationTransformer"
       />
