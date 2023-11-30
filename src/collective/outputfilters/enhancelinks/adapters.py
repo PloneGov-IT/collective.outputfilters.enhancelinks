@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
-from collective.outputfilters.enhancelinks.interfaces import (
-    ILinkEnhancerProvider,
-)
+from collective.outputfilters.enhancelinks.interfaces import ILinkEnhancerProvider
 from humanfriendly import format_size
 from plone import api
 from zope.interface import implementer
@@ -42,7 +40,7 @@ class BaseEnhanceLink(object):
         return mime
 
     def get_right_mime_extensions(self, mime_infos):
-        """ Two jobs for this method:
+        """Two jobs for this method:
         a. It seems that if you `lookup` the  `text/csv` MIME type with the
         mimetypes_registry, the informations retrived are incomplete
         (the object returned, for example, doesn't have any extension

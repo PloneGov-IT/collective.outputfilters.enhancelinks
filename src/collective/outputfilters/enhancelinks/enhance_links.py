@@ -1,17 +1,14 @@
 # -*- coding: utf-8 -*-
 from collective.outputfilters.enhancelinks import logger
-from collective.outputfilters.enhancelinks.interfaces import (
-    ILinkEnhancerProvider,
-)
+from collective.outputfilters.enhancelinks.interfaces import ILinkEnhancerProvider
 from lxml import etree
 from lxml import html
 from plone import api
-from plone.outputfilters.filters.resolveuid_and_caption import (
-    IResolveUidsEnabler,
-)  # noqa
+from plone.outputfilters.filters.resolveuid_and_caption import IResolveUidsEnabler  # noqa
 from plone.outputfilters.filters.resolveuid_and_caption import resolveuid_re
 from zope.cachedescriptors.property import Lazy as lazy_property
 from zope.component import getAllUtilitiesRegisteredFor
+
 import six
 
 
@@ -25,7 +22,7 @@ class EnhanceLinks(object):
     def __init__(self, context=None, request=None):
         self.context = context
         self.request = request
-        self.data = u""
+        self.data = ""
 
     @lazy_property
     def resolve_uids(self):

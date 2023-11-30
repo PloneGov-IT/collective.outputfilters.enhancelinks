@@ -1,10 +1,8 @@
 # -*- coding: utf-8 -*-
 """Setup tests for this package."""
 from collective.outputfilters.enhancelinks.enhance_links import EnhanceLinks
+from collective.outputfilters.enhancelinks.testing import COLLECTIVE_OUTPUTFILTERS_enhancelinks_FUNCTIONAL_TESTING  # noqa
 from collective.outputfilters.enhancelinks.tests.base import BaseTest
-from collective.outputfilters.enhancelinks.testing import (
-    COLLECTIVE_OUTPUTFILTERS_enhancelinks_FUNCTIONAL_TESTING,
-)  # noqa
 from plone import api
 from plone.app.testing import login
 from plone.app.testing import setRoles
@@ -19,8 +17,8 @@ class TestFilter(BaseTest):
 
     def setUp(self):
         """Custom shared utility setup for tests."""
-        self.portal = self.layer['portal']
-        setRoles(self.portal, TEST_USER_ID, ['Manager'])
+        self.portal = self.layer["portal"]
+        setRoles(self.portal, TEST_USER_ID, ["Manager"])
         login(self.portal, TEST_USER_NAME)
         self.output_filter = EnhanceLinks()
 
@@ -34,7 +32,7 @@ class TestFilter(BaseTest):
     def test_filter_with_external_link(self):
         """Test if the filter does nothing without hrefs in html"""
         html = (
-            '<p>This is a simple <strong>formatted text</strong>.</p>'
+            "<p>This is a simple <strong>formatted text</strong>.</p>"
             '<p>This is an <a class="external-link" href="https://plone.org" '
             'target="_self" title=""> external link</a></p>'
         )
@@ -43,11 +41,11 @@ class TestFilter(BaseTest):
     def test_filter_with_link_to_document(self):
         """Test if the filter does nothing without hrefs in html"""
         document = api.content.create(
-            type='Document', title='A page', container=self.portal
+            type="Document", title="A page", container=self.portal
         )
         html = (
-            '<p>This is a simple <strong>formatted text</strong>.</p>'
-            '<p>This is an '
+            "<p>This is a simple <strong>formatted text</strong>.</p>"
+            "<p>This is an "
             '<a class="internal-link" href="resolveuid/{0}" target="_self" '
             'title="">internal link</a></p>'.format(document.UID())
         )
@@ -56,20 +54,22 @@ class TestFilter(BaseTest):
     def test_filter_with_link_to_file(self):
         """Test if the filter works properly with a link to a file"""
         file_obj = api.content.create(
-            type='File',
-            title='file',
+            type="File",
+            title="file",
             container=self.portal,
-            file=self.get_attachment(u'file.pdf', type='file'),
+            file=self.get_attachment("file.pdf", type="file"),
         )
         html = (
-            '<p>This is a simple <strong>formatted text</strong>.</p>'
-            '<p>This is an '
+            "<p>This is a simple <strong>formatted text</strong>.</p>"
+            "<p>This is an "
             '<a data-linktype="internal" href="resolveuid/{0}" target="_self" '
             'title="">internal link</a></p>'.format(file_obj.UID())
         )
         parsed_html = self.output_filter(html)
         self.assertIn(self.file_icon_compare_str(), parsed_html)  # noqa
-        self.assertIn('class="attachmentLinkIcon" alt="pdf">8.56 KB)', parsed_html)
+        self.assertIn(
+            'class="attachmentLinkIcon" alt="pdf">8.56 KB)', parsed_html
+        )
 
     def test_filter_with_link_to_file_formatted_text(self):
         """
@@ -77,19 +77,21 @@ class TestFilter(BaseTest):
         when text is formatted. Extra infos should be placed at the end.
         """
         file_obj = api.content.create(
-            type='File',
-            title='file',
+            type="File",
+            title="file",
             container=self.portal,
-            file=self.get_attachment(u'file.pdf', type='file'),
+            file=self.get_attachment("file.pdf", type="file"),
         )
         html = (
             '<li><a href="resolveuid/{0}" data-linktype="internal">'
-            '<strong>Testing <em>link</em></strong> with '
-            '<strong>formatted text</strong></a></li>'.format(file_obj.UID())
+            "<strong>Testing <em>link</em></strong> with "
+            "<strong>formatted text</strong></a></li>".format(file_obj.UID())
         )
         parsed_html = self.output_filter(html)
         self.assertIn(self.file_icon_compare_str(), parsed_html)  # noqa
-        self.assertIn('class="attachmentLinkIcon" alt="pdf">8.56 KB)', parsed_html)
+        self.assertIn(
+            'class="attachmentLinkIcon" alt="pdf">8.56 KB)', parsed_html
+        )
 
     def test_filter_with_link_to_file_special_characters_text(self):
         """
@@ -97,19 +99,21 @@ class TestFilter(BaseTest):
         when text is formatted. Extra infos should be placed at the end.
         """
         file_obj = api.content.create(
-            type='File',
-            title='file',
+            type="File",
+            title="file",
             container=self.portal,
-            file=self.get_attachment(u'file.pdf', type='file'),
+            file=self.get_attachment("file.pdf", type="file"),
         )
         html = (
             '<li><a href="resolveuid/{0}" data-linktype="internal">'
             "<strong>Let’s testing <em>link</em></strong> with à"
-            '<strong>special text</strong></a></li>'.format(file_obj.UID())
+            "<strong>special text</strong></a></li>".format(file_obj.UID())
         )
         parsed_html = self.output_filter(html)
         self.assertIn(self.file_icon_compare_str(), parsed_html)  # noqa
-        self.assertIn('class="attachmentLinkIcon" alt="pdf">8.56 KB)', parsed_html)
+        self.assertIn(
+            'class="attachmentLinkIcon" alt="pdf">8.56 KB)', parsed_html
+        )
 
     def test_filter_with_link_to_file_extra_characters_text(self):
         """
@@ -117,19 +121,21 @@ class TestFilter(BaseTest):
         when text is formatted. Extra infos should be placed at the end.
         """
         file_obj = api.content.create(
-            type='File',
-            title='file',
+            type="File",
+            title="file",
             container=self.portal,
-            file=self.get_attachment(u'file.pdf', type='file'),
+            file=self.get_attachment("file.pdf", type="file"),
         )
         html = (
             '<li><a href="resolveuid/{0}" data-linktype="internal">'
             "<strong>Let’s testing <em>link</em></strong> with à"
-            '<strong>special text</strong> 14 </a></li>'.format(file_obj.UID())
+            "<strong>special text</strong> 14 </a></li>".format(file_obj.UID())
         )
         parsed_html = self.output_filter(html)
         self.assertIn(self.file_icon_compare_str(), parsed_html)  # noqa
-        self.assertIn('class="attachmentLinkIcon" alt="pdf">8.56 KB)', parsed_html)
+        self.assertIn(
+            'class="attachmentLinkIcon" alt="pdf">8.56 KB)', parsed_html
+        )
 
     def test_filter_skip_with_link_to_file(self):
         """
@@ -137,47 +143,51 @@ class TestFilter(BaseTest):
         without internal-link class
         """
         file_obj = api.content.create(
-            type='File',
-            title='file',
+            type="File",
+            title="file",
             container=self.portal,
-            file=self.get_attachment(u'file.pdf', type='file'),
+            file=self.get_attachment("file.pdf", type="file"),
         )
         html = (
-            '<p>This is a simple <strong>formatted text</strong>.</p>'
-            '<p>This is an '
+            "<p>This is a simple <strong>formatted text</strong>.</p>"
+            "<p>This is an "
             '<a class="foo" href="resolveuid/{0}" target="_self" '
             'title="">internal link</a></p>'.format(file_obj.UID())
         )
         parsed_html = self.output_filter(html)
         self.assertNotIn(self.image_icon_compare_str(), parsed_html)  # noqa
-        self.assertNotIn('class="attachmentLinkIcon" alt="pdf">8.56 KB)', parsed_html)
+        self.assertNotIn(
+            'class="attachmentLinkIcon" alt="pdf">8.56 KB)', parsed_html
+        )
 
     def test_filter_with_link_to_image(self):
         """Test if the filter works properly with a link to an image"""
         image = api.content.create(
-            type='Image',
-            title='image',
+            type="Image",
+            title="image",
             container=self.portal,
-            image=self.get_attachment(u'image.jpg', type='image'),
+            image=self.get_attachment("image.jpg", type="image"),
         )
         html = (
-            '<p>This is a simple <strong>formatted text</strong>.</p>'
-            '<p>This is an '
+            "<p>This is a simple <strong>formatted text</strong>.</p>"
+            "<p>This is an "
             '<a data-linktype="internal" href="resolveuid/{0}" target="_self"'
             ' title="">internal link</a></p>'.format(image.UID())
         )
         parsed_html = self.output_filter(html)
         self.assertIn(self.image_icon_compare_str(), parsed_html)  # noqa
-        self.assertIn('class="attachmentLinkIcon" alt="jpg">5.13 KB)', parsed_html)
+        self.assertIn(
+            'class="attachmentLinkIcon" alt="jpg">5.13 KB)', parsed_html
+        )
 
     def test_filter_with_oldstyle_link_to_document(self):
         """Test if the filter does nothing without hrefs in html"""
         document = api.content.create(
-            type='Document', title='A page', container=self.portal
+            type="Document", title="A page", container=self.portal
         )
         html = (
-            '<p>This is a simple <strong>formatted text</strong>.</p>'
-            '<p>This is an '
+            "<p>This is a simple <strong>formatted text</strong>.</p>"
+            "<p>This is an "
             '<a class="internal-link" href="resolveuid/{0}" target="_self" '
             'title="">internal link</a></p>'.format(document.UID())
         )
@@ -186,20 +196,22 @@ class TestFilter(BaseTest):
     def test_filter_with_oldstyle_link_to_file(self):
         """Test if the filter works properly with a link to a file"""
         file_obj = api.content.create(
-            type='File',
-            title='file',
+            type="File",
+            title="file",
             container=self.portal,
-            file=self.get_attachment(u'file.pdf', type='file'),
+            file=self.get_attachment("file.pdf", type="file"),
         )
         html = (
-            '<p>This is a simple <strong>formatted text</strong>.</p>'
-            '<p>This is an '
+            "<p>This is a simple <strong>formatted text</strong>.</p>"
+            "<p>This is an "
             '<a class="internal-link" href="resolveuid/{0}" target="_self" '
             'title="">internal link</a></p>'.format(file_obj.UID())
         )
         parsed_html = self.output_filter(html)
         self.assertIn(self.file_icon_compare_str(), parsed_html)  # noqa
-        self.assertIn('class="attachmentLinkIcon" alt="pdf">8.56 KB)', parsed_html)
+        self.assertIn(
+            'class="attachmentLinkIcon" alt="pdf">8.56 KB)', parsed_html
+        )
 
     def test_filter_with_oldstyle_link_to_file_multiple_classes(self):
         """
@@ -207,20 +219,22 @@ class TestFilter(BaseTest):
         have multiple css classes
         """
         file_obj = api.content.create(
-            type='File',
-            title='file',
+            type="File",
+            title="file",
             container=self.portal,
-            file=self.get_attachment(u'file.pdf', type='file'),
+            file=self.get_attachment("file.pdf", type="file"),
         )
         html = (
-            '<p>This is a simple <strong>formatted text</strong>.</p>'
-            '<p>This is an '
+            "<p>This is a simple <strong>formatted text</strong>.</p>"
+            "<p>This is an "
             '<a class="internal-link some-class" href="resolveuid/{0}" target="_self" '
             'title="">internal link</a></p>'.format(file_obj.UID())
         )
         parsed_html = self.output_filter(html)
         self.assertIn(self.file_icon_compare_str(), parsed_html)  # noqa
-        self.assertIn('class="attachmentLinkIcon" alt="pdf">8.56 KB)', parsed_html)
+        self.assertIn(
+            'class="attachmentLinkIcon" alt="pdf">8.56 KB)', parsed_html
+        )
 
     def test_filter_skip_with_oldstyle_link_to_file(self):
         """
@@ -228,35 +242,39 @@ class TestFilter(BaseTest):
         without internal-link class
         """
         file_obj = api.content.create(
-            type='File',
-            title='file',
+            type="File",
+            title="file",
             container=self.portal,
-            file=self.get_attachment(u'file.pdf', type='file'),
+            file=self.get_attachment("file.pdf", type="file"),
         )
         html = (
-            '<p>This is a simple <strong>formatted text</strong>.</p>'
-            '<p>This is an '
+            "<p>This is a simple <strong>formatted text</strong>.</p>"
+            "<p>This is an "
             '<a class="foo" href="resolveuid/{0}" target="_self" '
             'title="">internal link</a></p>'.format(file_obj.UID())
         )
         parsed_html = self.output_filter(html)
         self.assertNotIn(self.file_icon_compare_str(), parsed_html)  # noqa
-        self.assertNotIn('class="attachmentLinkIcon" alt="pdf">8.56 KB)', parsed_html)
+        self.assertNotIn(
+            'class="attachmentLinkIcon" alt="pdf">8.56 KB)', parsed_html
+        )
 
     def test_filter_with_oldstyle_link_to_image(self):
         """Test if the filter works properly with a link to an image"""
         image = api.content.create(
-            type='Image',
-            title='image',
+            type="Image",
+            title="image",
             container=self.portal,
-            image=self.get_attachment(u'image.jpg', type='image'),
+            image=self.get_attachment("image.jpg", type="image"),
         )
         html = (
-            '<p>This is a simple <strong>formatted text</strong>.</p>'
-            '<p>This is an '
+            "<p>This is a simple <strong>formatted text</strong>.</p>"
+            "<p>This is an "
             '<a class="internal-link" href="resolveuid/{0}" target="_self" '
             'title="">internal link</a></p>'.format(image.UID())
         )
         parsed_html = self.output_filter(html)
         self.assertIn(self.image_icon_compare_str(), parsed_html)  # noqa
-        self.assertIn('class="attachmentLinkIcon" alt="jpg">5.13 KB)', parsed_html)
+        self.assertIn(
+            'class="attachmentLinkIcon" alt="jpg">5.13 KB)', parsed_html
+        )
